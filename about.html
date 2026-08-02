@@ -3,651 +3,335 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>À propos · Archevêque Charles Agyinasare</title>
+    <title>À propos - ENFLAMMER 2026</title>
+
     <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet" />
-    <!-- Font Awesome 6 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700&display=swap" rel="stylesheet" />
+
     <style>
-        /* -------------------- RESET & BASE -------------------- */
+        /* ============================================================
+           THEMES & VARIABLES
+           ============================================================ */
+        :root {
+            --gold: #D4A843;
+            --gold-light: #E8C86A;
+            --gold-dark: #B8922F;
+            --primary: #C62828;
+            --primary-dark: #8E0000;
+            --radius: 20px;
+            --radius-sm: 12px;
+            --transition: 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+            --bg: #080604;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --bg-glass: rgba(8, 6, 4, 0.75);
+            --bg-input: rgba(255, 255, 255, 0.04);
+            --text: #f0ebe5;
+            --text-muted: #9a8a7a;
+            --text-inverse: #080604;
+            --border: rgba(255, 255, 255, 0.06);
+            --shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+            --overlay: rgba(0, 0, 0, 0.60);
+            --badge-bg: rgba(212, 168, 67, 0.10);
+            --badge-border: rgba(212, 168, 67, 0.12);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        :root {
-            --primary: #B8860B;
-            --primary-light: #D4AF37;
-            --primary-dark: #8B6508;
-            --accent: #C0392B;
-            --dark: #0b0a0a;
-            --dark-card: rgba(12, 11, 11, 0.85);
-            --glass-bg: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --text-light: #f5f0eb;
-            --text-muted: #b8b0a8;
-            --shadow-glow: 0 20px 60px rgba(184, 134, 11, 0.12);
-            --radius: 24px;
-            --transition: 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
         body {
-            font-family: 'Inter', sans-serif;
-            background: #0e0d0d;
-            color: var(--text-light);
-            line-height: 1.7;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.8;
+            min-height: 100vh;
+            padding: 30px 20px;
             -webkit-font-smoothing: antialiased;
-            overflow-x: hidden;
-            user-select: none;
-            -webkit-user-select: none;
-            /* Animation d'entrée en fondu */
-            animation: pageFadeIn 0.8s ease forwards;
-        }
-
-        @keyframes pageFadeIn {
-            0% {
-                opacity: 0;
-                transform: translateY(12px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Overlay de transition entre les pages */
-        .page-transition-overlay {
-            position: fixed;
-            inset: 0;
-            background: #0e0d0d;
-            z-index: 99999;
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-        .page-transition-overlay.active {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        img {
-            max-width: 100%;
-            display: block;
-        }
-        a {
-            color: inherit;
-            text-decoration: none;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 900px;
             margin: 0 auto;
-            padding: 0 24px;
         }
 
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #1a1818;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: var(--primary);
-            border-radius: 10px;
-        }
-
-        /* Glassmorphism */
-        .glass {
-            background: var(--glass-bg);
-            backdrop-filter: blur(14px) saturate(180%);
-            -webkit-backdrop-filter: blur(14px) saturate(180%);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-glow);
-        }
-
-        /* Reveal on scroll */
-        .reveal {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 0.9s ease, transform 0.9s ease;
-        }
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* ======================================================
-                   HEADER / NAVIGATION (version simplifiée pour about)
-                ====================================================== */
-        .main-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
-            padding: 14px 0;
-            background: rgba(10, 9, 9, 0.7);
-            backdrop-filter: blur(12px) saturate(180%);
-            -webkit-backdrop-filter: blur(12px) saturate(180%);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            transition: var(--transition);
-        }
-
-        .main-header .container {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .header-logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        /* LOGO : remplacez 'logo-placeholder.png' par le chemin de votre logo */
-        .header-logo img {
-            height: 44px;
-            width: auto;
-        }
-
-        .header-logo .brand-text {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.2rem;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-        }
-        .header-logo .brand-text .gold {
-            color: var(--primary-light);
-        }
-
+        /* Bouton retour */
         .btn-back {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            padding: 8px 20px;
-            border-radius: 40px;
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.10);
+            gap: 10px;
+            padding: 12px 28px;
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 50px;
             color: var(--text-muted);
+            font-family: 'Inter', sans-serif;
             font-weight: 500;
             font-size: 0.9rem;
-            transition: var(--transition);
+            cursor: pointer;
+            transition: all var(--transition);
+            text-decoration: none;
+            margin-bottom: 30px;
         }
+
         .btn-back:hover {
-            background: rgba(255, 255, 255, 0.12);
-            color: var(--text-light);
-            border-color: var(--primary-light);
+            border-color: var(--gold);
+            color: var(--text);
             transform: translateX(-4px);
         }
 
-        @media (max-width: 768px) {
-            .header-logo img {
-                height: 36px;
-            }
-            .header-logo .brand-text {
-                font-size: 1rem;
-            }
-            .btn-back span {
-                display: none;
-            }
-            .btn-back {
-                padding: 8px 14px;
-            }
-        }
-
-        /* ======================================================
-                   SECTION BIOGRAPHIE
-                ====================================================== */
-        .bio-section {
-            padding: 120px 0 60px;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-        }
-
-        .bio-grid {
-            display: grid;
-            grid-template-columns: 340px 1fr;
-            gap: 48px;
-            align-items: start;
-        }
-
-        /* Photo */
-        .bio-image {
-            position: sticky;
-            top: 100px;
-        }
-        .bio-image img {
-            width: 100%;
+        /* Contenu principal */
+        .about-content {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
             border-radius: var(--radius);
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7);
-            border: 2px solid rgba(184, 134, 11, 0.20);
-            transition: var(--transition);
-        }
-        .bio-image img:hover {
-            transform: scale(1.01);
-            border-color: var(--primary-light);
-        }
-        .bio-image .caption {
-            text-align: center;
-            margin-top: 12px;
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            font-style: italic;
+            padding: 50px 45px;
+            backdrop-filter: blur(10px);
         }
 
-        /* Texte */
-        .bio-content .pre-title {
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--primary-light);
+        .about-header {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+
+        .about-header .photo {
+            flex: 0 0 200px;
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 3px solid var(--gold);
+            box-shadow: 0 10px 40px rgba(212, 168, 67, 0.15);
+        }
+
+        .about-header .photo img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .about-header .title-section {
+            flex: 1;
+        }
+
+        .about-header .title-section .badge {
+            display: inline-block;
+            font-size: 0.6rem;
             font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            color: var(--gold);
             margin-bottom: 8px;
         }
-        .bio-content h1 {
+
+        .about-header .title-section h1 {
             font-family: 'Playfair Display', serif;
-            font-size: clamp(2.2rem, 5vw, 3.6rem);
-            font-weight: 700;
-            line-height: 1.1;
-            margin-bottom: 4px;
+            font-size: clamp(1.8rem, 3vw, 2.8rem);
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 8px;
         }
-        .bio-content h1 .gold {
-            background: linear-gradient(135deg, var(--primary-light), #f7e05e);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .bio-content .sub-title {
-            font-size: clamp(1rem, 1.8vw, 1.3rem);
+
+        .about-header .title-section .subtitle {
             color: var(--text-muted);
-            font-weight: 400;
-            margin-bottom: 24px;
-            border-left: 3px solid var(--primary);
-            padding-left: 16px;
+            font-size: 1rem;
+            font-weight: 300;
+        }
+
+        .bio-content {
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1.9;
         }
 
         .bio-content p {
-            color: var(--text-muted);
             margin-bottom: 16px;
-            font-size: 1.05rem;
         }
 
-        /* Texte masqué pour "En savoir plus" */
-        #fullBio {
-            max-height: 0;
-            opacity: 0;
-            overflow: hidden;
-            transition: max-height 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                opacity 0.6s ease,
-                margin 0.4s ease;
-            margin-top: 0;
+        .bio-content strong {
+            color: var(--text);
         }
-        #fullBio.open {
-            max-height: 2000px;
-            /* assez grand pour tout le texte */
-            opacity: 1;
-            margin-top: 12px;
+
+        .bio-content .more-content {
+            display: none;
+            margin-top: 10px;
         }
-        #fullBio p:last-child {
-            margin-bottom: 0;
+
+        .bio-content .more-content.visible {
+            display: block;
         }
 
         .btn-read-more {
             display: inline-flex;
             align-items: center;
-            gap: 12px;
-            padding: 14px 32px;
-            border-radius: 60px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            gap: 8px;
+            padding: 10px 24px;
+            background: var(--gold);
             border: none;
-            color: #fff;
+            border-radius: 50px;
+            color: var(--text-inverse);
+            font-family: 'Inter', sans-serif;
             font-weight: 600;
-            font-size: 1rem;
+            font-size: 0.85rem;
             cursor: pointer;
-            transition: var(--transition);
-            box-shadow: 0 8px 24px rgba(184, 134, 11, 0.25);
-            margin-top: 8px;
-        }
-        .btn-read-more:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 14px 34px rgba(184, 134, 11, 0.4);
-            background: linear-gradient(135deg, var(--primary-light), var(--primary));
-        }
-        .btn-read-more i {
-            transition: transform 0.3s ease;
-        }
-        .btn-read-more.active i {
-            transform: rotate(180deg);
+            transition: all var(--transition);
+            margin-top: 10px;
         }
 
-        /* Responsive bio */
-        @media (max-width: 992px) {
-            .bio-grid {
-                grid-template-columns: 1fr;
-                gap: 32px;
+        .btn-read-more:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(212, 168, 67, 0.25);
+        }
+
+        /* Footer */
+        .about-footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        .about-footer a {
+            color: var(--gold);
+        }
+
+        .about-footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .about-content {
+                padding: 30px 20px;
             }
-            .bio-image {
-                position: relative;
-                top: 0;
-                max-width: 320px;
-                margin: 0 auto;
+
+            .about-header {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
             }
-            .bio-section {
-                padding: 100px 0 40px;
+
+            .about-header .photo {
+                flex: 0 0 auto;
+                width: 160px;
+            }
+
+            .about-header .photo img {
+                height: 200px;
             }
         }
 
         @media (max-width: 480px) {
-            .bio-image {
-                max-width: 240px;
+            .about-content {
+                padding: 20px 16px;
             }
-        }
 
-        /* ======================================================
-                   FOOTER
-                ====================================================== */
-        footer {
-            border-top: 1px solid rgba(255, 255, 255, 0.04);
-            padding: 40px 0 28px;
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            margin-top: 20px;
-        }
-        footer .footer-brand {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: var(--text-light);
-            letter-spacing: 0.5px;
-        }
-        footer .footer-brand .gold {
-            color: var(--primary-light);
-        }
-        footer .footer-links {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-            margin: 16px 0 12px;
-        }
-        footer .footer-links a {
-            color: var(--text-muted);
-            transition: var(--transition);
-        }
-        footer .footer-links a:hover {
-            color: var(--primary-light);
-        }
-        .btn-back-footer {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--primary-light);
-            font-weight: 500;
-            transition: var(--transition);
-        }
-        .btn-back-footer:hover {
-            color: var(--text-light);
-            transform: translateX(-4px);
-        }
+            .about-header .photo {
+                width: 130px;
+            }
 
-        /* ======================================================
-                   BOUTONS FLOTTANTS (pour rester cohérent)
-                ====================================================== */
-        .float-btn {
-            position: fixed;
-            z-index: 999;
-            width: 58px;
-            height: 58px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.6rem;
-            color: #fff;
-            border: none;
-            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5);
-            transition: var(--transition);
-            cursor: pointer;
-            text-decoration: none;
-            right: 28px;
-        }
-        .float-btn:hover {
-            transform: scale(1.08);
-        }
-        .float-whatsapp {
-            bottom: 24px;
-            background: #25D366;
-        }
-        .float-email {
-            bottom: 94px;
-            background: #3b5998;
-        }
-        .float-btn .tooltip {
-            position: absolute;
-            right: 72px;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(6px);
-            padding: 6px 16px;
-            border-radius: 30px;
-            font-size: 0.8rem;
-            font-weight: 500;
-            white-space: nowrap;
-            opacity: 0;
-            pointer-events: none;
-            transition: var(--transition);
-            color: #fff;
-        }
-        .float-btn:hover .tooltip {
-            opacity: 1;
-        }
-        @media (max-width: 600px) {
-            .float-btn {
-                width: 50px;
-                height: 50px;
-                font-size: 1.3rem;
-                right: 16px;
+            .about-header .photo img {
+                height: 160px;
             }
-            .float-whatsapp {
-                bottom: 16px;
-            }
-            .float-email {
-                bottom: 78px;
-            }
-            .float-btn .tooltip {
-                display: none;
+
+            .btn-back {
+                padding: 10px 20px;
+                font-size: 0.8rem;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- Transition overlay pour la navigation entre pages -->
-    <div class="page-transition-overlay" id="pageTransition"></div>
+    <div class="container">
 
-    <!-- ============================================================
-    HEADER
-    ============================================================ -->
-    <header class="main-header">
-        <div class="container">
-            <div class="header-logo">
-                <!-- LOGO : remplacez 'logo-placeholder.png' par le chemin de votre logo -->
-                <img src="logo-awc.png" alt="Logo Agyinasare World Evangelism" />
-                <span class="brand-text"><span class="gold">AGYINASARE</span> WORLD</span>
-            </div>
-            <!-- Bouton retour avec transition -->
-            <a href="index.html" class="btn-back" id="backHomeBtn">
-                <i class="fas fa-arrow-left"></i>
-                <span>Retour à l'accueil</span>
-            </a>
-        </div>
-    </header>
+        <!-- Bouton retour -->
+        <a href="index.html" class="btn-back">← Retour à l'accueil</a>
 
-    <!-- ============================================================
-    SECTION BIOGRAPHIE
-    ============================================================ -->
-    <section class="bio-section reveal">
-        <div class="container">
-            <div class="bio-grid">
-                <!-- Colonne gauche : Photo -->
-                <div class="bio-image">
-                    <!-- PHOTO DE L'ARCHEVÊQUE : remplacez 'src' par le chemin de sa photo -->
-                    <img src="charles.jpg" alt="L'archevêque Charles Agyinasare" />
-                    <div class="caption">L'archevêque  Charles Agyinasare</div>
+        <!-- Contenu principal -->
+        <div class="about-content">
+
+            <div class="about-header">
+                <div class="photo">
+                    <img src="charles.jpg" alt="Archevêque Charles Agyinasare" />
                 </div>
-
-                <!-- Colonne droite : Biographie -->
-                <div class="bio-content">
-                    <div class="pre-title"><i class="fas fa-crown"></i> Son Excellence</div>
-                    <h1>Archevêque <span class="gold">Charles Agyinasare</span></h1>
-                    <div class="sub-title">Docteur en philosophie — Apôtre des nations</div>
-
-                    <!-- Biographie courte (toujours visible) -->
-                    <p>
-                        L'archevêque  Charles Agyinasare (docteur en philosophie) est un apôtre des nations, un homme d'État missionnaire, un télévangéliste, un pasteur et un auteur. Il est le président d'Agyinasare World Evangelism, un ministère qui répand l'Évangile à travers le monde. Il est également le fondateur et le prélat de Perez Chapel International.
-                    </p>
-                    <p>
-                        Après une vie de péché, Charles a donné sa vie à Christ, a été délivré du pouvoir du péché et, depuis lors, il est animé d'une profonde passion pour le salut des âmes et leur délivrance de l'emprise de Satan.
-                    </p>
-
-                    <!-- Biographie complète (masquée par défaut) -->
-                    <div id="fullBio">
-                        <p>
-                            Suite à la mission que Dieu lui a confiée, à savoir : <em>« Mon fils Charles, je te donne pouvoir sur les démons et les puissances, guéris les malades, ressuscite les morts et proclame le Royaume »</em>, le ministère du Dr Agyinasare se caractérise par la prédication de la parole de Dieu, simple mais authentique, accompagnée par la puissance indéniable de Dieu à travers les guérisons, les miracles et les prodiges. Il a prêché ce message dans plus de 92 pays à travers le monde.
-                        </p>
-                        <p>
-                            L'archevêque Agyinasare est également le pasteur principal du Perez Dome à Accra, au Ghana, un auditorium de 14 000 places considéré comme le plus grand du pays. Ses enseignements transformateurs et ses réunions de témoignages de miracles sont diffusés quotidiennement dans plus de 16 pays africains par le biais de sa chaîne de télévision par satellite Precious TV, et dans le monde entier grâce à la diffusion en ligne de Precious TV.
-                        </p>
-                        <p>
-                            Il est également chancelier de l'Université Pérez, dont le campus se situe à Gomoa-Pomadze, près de Winneba. Il est l'auteur de plus de 84 ouvrages traitant de sujets aussi variés que l'étiquette, les finances, le leadership, la sainteté, les derniers jours et le Saint-Esprit. Fort d'un ministère aux multiples facettes, il forme et transmet aujourd'hui cette même grâce à des milliers de leaders du monde entier lors de son Sommet annuel de la Puissance Surnaturelle.
-                        </p>
-                        <p>
-                            Le Dr Charles est marié à la Révérende Vivian Agyinasare, cofondatrice de Perez Chapel International, où elle occupe actuellement le poste de directrice internationale des femmes et où elle exerce son ministère pastoral à ses côtés au Perez Dome. Mariés depuis plus de 37 ans, ils ont trois enfants adultes, une fille adoptive et quatre petits-enfants.
-                        </p>
-                    </div>
-
-                    <!-- Bouton En savoir plus -->
-                    <button class="btn-read-more" id="readMoreBtn">
-                        <span id="btnText">En savoir plus</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </button>
+                <div class="title-section">
+                    <span class="badge">Son Excellence</span>
+                    <h1>L'archevêque Charles Agyinasare</h1>
+                    <p class="subtitle">Docteur en philosophie — Apôtre des nations</p>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- ============================================================
-    FOOTER
-    ============================================================ -->
-    <footer>
-        <div class="container">
-            <div class="footer-brand">AGYINASARE <span class="gold">WORLD EVANGELISM</span></div>
-            <div class="footer-links">
-                <a href="index.html">Accueil</a>
-                <a href="index.html#infos">Infos</a>
-                <a href="index.html#formulaire">Inscription</a>
-                <a href="#" class="btn-back-footer" id="backFooterBtn">
-                    <i class="fas fa-arrow-left"></i> Retour à l'accueil
-                </a>
+            <div class="bio-content" id="bioContent">
+
+                <p>
+                    <strong> L'archevêque  Charles Agyinasare</strong> (docteur en philosophie) est un apôtre des nations, un homme d'État missionnaire, un télévangéliste, un pasteur et un auteur.
+                </p>
+
+                <p>
+                    Il est le président d'<strong>Agyinasare World Evangelism</strong>, un ministère qui répand l'Évangile à travers le monde. Il est également le fondateur et le prélat de <strong>Perez Chapel International</strong>.
+                </p>
+
+                <p>
+                    Après une vie de péché, Charles a donné sa vie à Christ, a été délivré du pouvoir du péché et, depuis lors, il est animé d'une profonde passion pour le salut des âmes et leur délivrance de l'emprise de Satan.
+                </p>
+
+                <!-- Contenu supplémentaire (masqué au départ) -->
+                <div class="more-content" id="moreContent">
+                    <p>
+                        Suite à la mission que Dieu lui a confiée, à savoir : <em>« Mon fils Charles, je te donne pouvoir sur les démons et les puissances, guéris les malades, ressuscite les morts et proclame le Royaume »</em>, le ministère du Dr Agyinasare se caractérise par la prédication de la parole de Dieu, simple mais authentique, accompagnée par la puissance indéniable de Dieu à travers les guérisons, les miracles et les prodiges. Il a prêché ce message dans plus de <strong>92 pays</strong> à travers le monde.
+                    </p>
+
+                    <p>
+                        L'archevêque Agyinasare est également le pasteur principal du <strong>Perez Dome</strong> à Accra, au Ghana, un auditorium de 14 000 places considéré comme le plus grand du pays. Ses enseignements transformateurs et ses réunions de témoignages de miracles sont diffusés quotidiennement dans plus de 16 pays africains par le biais de sa chaîne de télévision par satellite <strong>Precious TV</strong>, et dans le monde entier grâce à la diffusion en ligne de Precious TV.
+                    </p>
+
+                    <p>
+                        Il est également chancelier de l'<strong>Université Pérez</strong>, dont le campus se situe à Gomoa-Pomadze, près de Winneba. Il est l'auteur de plus de <strong>84 ouvrages</strong> traitant de sujets aussi variés que l'étiquette, les finances, le leadership, la sainteté, les derniers jours et le Saint-Esprit. Fort d'un ministère aux multiples facettes, il forme et transmet aujourd'hui cette même grâce à des milliers de leaders du monde entier lors de son <strong>Sommet annuel de la Puissance Surnaturelle</strong>.
+                    </p>
+
+                    <p>
+                        Le Dr Charles est marié à la <strong>Révérende Vivian Agyinasare</strong>, cofondatrice de Perez Chapel International, où elle occupe actuellement le poste de directrice internationale des femmes et où elle exerce son ministère pastoral à ses côtés au Perez Dome. Mariés depuis plus de <strong>37 ans</strong>, ils ont trois enfants adultes, une fille adoptive et quatre petits-enfants : le Révérend Dr Selaise, le Révérend Francis, Charlene, Clementina Quarshie, Carly, Vivian, Charles Jr. et Charles Yewurako Agyinasare.
+                    </p>
+                </div>
+
+                <button class="btn-read-more" id="readMoreBtn">📖 En savoir plus</button>
+
             </div>
-            <p style="font-size:0.8rem; margin-top:12px;">&copy; 2026 AGYINASARE WORLD EVANGELISM · Parakou, Bénin</p>
-        
+
         </div>
-    </footer>
 
-    <!-- ============================================================
-    BOUTONS FLOTTANTS
-    ============================================================ -->
-    <a href="https://wa.me/2290151402849?text=Bonjour%20!%20Je%20souhaite%20avoir%20des%20informations%20sur%20la%20conf%C3%A9rence%20ENFLAMMER%20Parakou%202026." target="_blank" class="float-btn float-whatsapp" aria-label="WhatsApp">
-        <i class="fab fa-whatsapp"></i>
-        <span class="tooltip">Nous contacter</span>
-    </a>
-    <a href="mailto:bsoukpo@yahoo.fr" class="float-btn float-email" aria-label="Email">
-        <i class="fas fa-envelope"></i>
-        <span class="tooltip">Nous contacter par email</span>
-    </a>
+        <div class="about-footer">
+            <p>&copy; 2026 <strong>AGYINASARE WORLD EVANGELISM</strong> — Tous droits réservés.</p>
+            <p><a href="index.html">Retour à l'accueil</a></p>
+        </div>
 
-    <!-- ============================================================
-    JAVASCRIPT
-    ============================================================ -->
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- SCRIPT : Afficher/masquer "En savoir plus" -->
+    <!-- ============================================================ -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        (function readMore() {
+            const btn = document.getElementById('readMoreBtn');
+            const moreContent = document.getElementById('moreContent');
 
-            /* ---------- REVEAL ON SCROLL ---------- */
-            const reveals = document.querySelectorAll('.reveal');
-            const revealObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) entry.target.classList.add('visible');
-                });
-            }, { threshold: 0.15 });
-            reveals.forEach(el => revealObserver.observe(el));
-
-            /* ---------- BOUTON "EN SAVOIR PLUS" ---------- */
-            const readMoreBtn = document.getElementById('readMoreBtn');
-            const fullBio = document.getElementById('fullBio');
-            const btnText = document.getElementById('btnText');
-            const icon = readMoreBtn.querySelector('i');
-
-            readMoreBtn.addEventListener('click', function() {
-                const isOpen = fullBio.classList.toggle('open');
-                btnText.textContent = isOpen ? 'Réduire' : 'En savoir plus';
-                this.classList.toggle('active');
-                if (isOpen) {
-                    fullBio.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            btn.addEventListener('click', function() {
+                if (moreContent.classList.contains('visible')) {
+                    moreContent.classList.remove('visible');
+                    btn.textContent = '📖 En savoir plus';
+                } else {
+                    moreContent.classList.add('visible');
+                    btn.textContent = '📖 Réduire';
                 }
             });
-
-            /* ---------- TRANSITION DOUCE VERS L'ACCUEIL ---------- */
-            const transitionOverlay = document.getElementById('pageTransition');
-
-            function handleNavigation(e, href) {
-                if (!href || href.startsWith('#') || href.startsWith('javascript')) return;
-                e.preventDefault();
-                transitionOverlay.classList.add('active');
-                setTimeout(() => {
-                    window.location.href = href;
-                }, 500);
-            }
-
-            // Bouton retour dans le header
-            const backHomeBtn = document.getElementById('backHomeBtn');
-            backHomeBtn.addEventListener('click', function(e) {
-                handleNavigation(e, this.getAttribute('href'));
-            });
-
-            // Bouton retour dans le footer
-            const backFooterBtn = document.getElementById('backFooterBtn');
-            if (backFooterBtn) {
-                backFooterBtn.addEventListener('click', function(e) {
-                    handleNavigation(e, this.getAttribute('href'));
-                });
-            }
-
-            // Tous les liens internes vers index.html
-            const internalLinks = document.querySelectorAll('a[href="index.html"], a[href="index.html#infos"], a[href="index.html#formulaire"]');
-            internalLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    handleNavigation(e, this.getAttribute('href'));
-                });
-            });
-
-            // Désactiver le clic droit
-            document.addEventListener('contextmenu', (e) => e.preventDefault());
-
-            // Supprimer la classe active de l'overlay au cas où il resterait bloqué
-            transitionOverlay.classList.remove('active');
-        });
+        })();
     </script>
 
 </body>
