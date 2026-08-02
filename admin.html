@@ -1103,7 +1103,7 @@
     <div class="page-transition-overlay" id="pageTransition"></div>
 
     <!-- ============================================================
-    ÉCRAN DE CONNEXION (un seul champ : mot de passe)
+    ÉCRAN DE CONNEXION MODERNISÉ (un seul champ : mot de passe)
     ============================================================ -->
     <div class="login-overlay" id="loginOverlay">
         <div class="login-card">
@@ -1398,28 +1398,17 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
 
-             ==========================================================
+            /* ==========================================================
                CONFIGURATION
-            ========================================================== 
-            / === URL DE VOTRE SCRIPT GOOGLE APPS SCRIPT (à remplacer) ===
-            const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxuPmjC9p5E8LLxwEYmeTwEUGHkzHryUVRy9mwxDCokAog5iUKVIqZatIu44MM9WiCDKw/exec'
+            ========================================================== */
+            // === URL DE VOTRE SCRIPT GOOGLE APPS SCRIPT (à remplacer) ===
+            const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxuPmjC9p5E8LLxwEYmeTwEUGHkzHryUVRy9mwxDCokAog5iUKVIqZatIu44MM9WiCDKw/exec';
 
             // Mot de passe admin
             const ADMIN_PASSWORD = '1234';
 
-             ==========================================================
-               VARIABLES GLOBALES
-            ========================================================== */
-            let allParticipants = [];
-            let filteredParticipants = [];
-            let currentPage = 1;
-            const pageSize = 20;
-            let currentDay = 1; // 1,2,3
-            let charts = {};
-            let isLoading = false;
-
             /* ==========================================================
-               AUTHENTIFICATION
+               AUTHENTIFICATION - CORRIGÉE
             ========================================================== */
             const loginOverlay = document.getElementById('loginOverlay');
             const adminApp = document.getElementById('adminApp');
@@ -1428,6 +1417,7 @@
             const loginError = document.getElementById('loginError');
             const logoutBtn = document.getElementById('logoutBtn');
 
+            // Fonction pour vérifier l'état de connexion
             function checkAuth() {
                 if (sessionStorage.getItem('adminAuth') === 'true') {
                     loginOverlay.classList.add('hidden');
@@ -1439,8 +1429,11 @@
                 }
             }
 
+            // Fonction de tentative de connexion
             function attemptLogin() {
                 const pass = adminPassword.value.trim();
+                console.log('🔑 Mot de passe saisi : "' + pass + '"'); // Débogage
+
                 if (pass === ADMIN_PASSWORD) {
                     sessionStorage.setItem('adminAuth', 'true');
                     loginError.textContent = '';
@@ -1456,14 +1449,23 @@
                 }
             }
 
+            // Attacher les événements
             loginBtn.addEventListener('click', attemptLogin);
+
             adminPassword.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter') loginBtn.click();
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    loginBtn.click();
+                }
             });
+
+            // Mettre le focus sur le champ mot de passe
             adminPassword.focus();
 
+            // Déconnexion
             logoutBtn.addEventListener('click', function() {
                 sessionStorage.removeItem('adminAuth');
+                // Détruire les graphiques
                 Object.values(charts).forEach(c => c.destroy());
                 charts = {};
                 checkAuth();
@@ -1500,6 +1502,17 @@
             });
 
             /* ==========================================================
+               VARIABLES GLOBALES
+            ========================================================== */
+            let allParticipants = [];
+            let filteredParticipants = [];
+            let currentPage = 1;
+            const pageSize = 20;
+            let currentDay = 1;
+            let charts = {};
+            let isLoading = false;
+
+            /* ==========================================================
                CHARGEMENT DES DONNÉES DEPUIS GOOGLE SHEETS
             ========================================================== */
             async function loadData() {
@@ -1507,7 +1520,6 @@
                 isLoading = true;
 
                 try {
-                    // Afficher un indicateur de chargement sur les stats
                     document.getElementById('statTotal').textContent = '...';
                     document.getElementById('statPresent').textContent = '...';
                     document.getElementById('statAbsent').textContent = '...';
@@ -1519,7 +1531,6 @@
 
                     if (result.status === 'success') {
                         allParticipants = result.data || [];
-                        // S'assurer que chaque participant a un objet 'present'
                         allParticipants.forEach(p => {
                             if (typeof p.Présent === 'string') {
                                 try {
@@ -1530,8 +1541,7 @@
                             } else if (!p.Présent) {
                                 p.Présent = { 1: false, 2: false, 3: false };
                             }
-                            // Normaliser les noms de colonnes pour correspondre aux attentes du tableau
-                            // On va créer un alias pour simplifier
+                            // Alias pour faciliter l'affichage
                             p.id = p.ID || '';
                             p.nom = p.Nom || '';
                             p.prenoms = p.Prénoms || '';
@@ -1555,9 +1565,7 @@
                         });
 
                         filteredParticipants = [...allParticipants];
-                        // Réinitialiser la pagination
                         currentPage = 1;
-                        // Mettre à jour l'affichage
                         populateFilters();
                         populateReportSelects();
                         renderTable();
@@ -1689,7 +1697,7 @@
                     }
                 });
 
-                // Évolution (basée sur les dates d'inscription)
+                // Évolution
                 const dateMap = {};
                 allParticipants.forEach(p => {
                     if (p.Date) {
@@ -1700,7 +1708,6 @@
                 });
                 const sortedDates = Object.keys(dateMap).sort((a, b) => new Date(a) - new Date(b));
                 const evolutionData = sortedDates.map(d => dateMap[d]);
-                // Cumul
                 let cumul = 0;
                 const cumulData = evolutionData.map(v => { cumul += v; return cumul; });
 
@@ -1847,9 +1854,8 @@
                     return;
                 }
 
-                // Envoyer la mise à jour au serveur
                 try {
-                    const response = await fetch(SCRIPT_URL, {
+                    await fetch(SCRIPT_URL, {
                         method: 'POST',
                         mode: 'no-cors',
                         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -1859,14 +1865,12 @@
                         })
                     });
 
-                    // Mettre à jour localement
                     if (!participant.present) participant.present = { 1: false, 2: false, 3: false };
                     participant.present[currentDay] = true;
 
                     document.getElementById('checkinResult').innerHTML =
                         `<span style="color:#2ecc71;">✅ ${participant.prenoms} ${participant.nom} (${participant.id}) pointé avec succès.</span>`;
 
-                    // Ajouter à l'historique
                     const historyList = document.getElementById('historyList');
                     const now = new Date().toLocaleTimeString();
                     const item = document.createElement('div');
@@ -1963,7 +1967,6 @@
                 const message = prompt('Message :', 'Bonjour [NOM],\n\nNous vous attendons à la conférence ENFLAMMER...');
                 if (message === null) return;
 
-                // Envoyer via l'API
                 fetch(SCRIPT_URL, {
                     method: 'POST',
                     mode: 'no-cors',
@@ -2063,10 +2066,8 @@
                INITIALISATION DE L'APP
             ========================================================== */
             function initApp() {
-                // Charger les données depuis le serveur
                 loadData();
 
-                // Événements des onglets
                 document.querySelectorAll('.tab-btn').forEach(btn => {
                     btn.addEventListener('click', function() {
                         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -2081,7 +2082,6 @@
                     });
                 });
 
-                // Événements du tableau
                 document.getElementById('searchInput').addEventListener('input', renderTable);
                 document.getElementById('filterPays').addEventListener('change', renderTable);
                 document.getElementById('filterStatut').addEventListener('change', renderTable);
@@ -2090,7 +2090,6 @@
                 document.getElementById('nextPage').addEventListener('click', () => { currentPage++;
                     renderTable(); });
 
-                // Pointage
                 document.querySelectorAll('#daySelector button').forEach(btn => {
                     btn.addEventListener('click', function() {
                         document.querySelectorAll('#daySelector button').forEach(b => b.classList.remove(
@@ -2106,11 +2105,9 @@
                 document.getElementById('checkinBtn').addEventListener('click', handleCheckin);
                 document.getElementById('closeDayBtn').addEventListener('click', closeDay);
 
-                // Rappels
                 document.getElementById('addReminderBtn').addEventListener('click', addReminder);
                 renderReminders();
 
-                // Exports
                 document.getElementById('exportExcelBtn').addEventListener('click', () => exportExcel(filteredParticipants));
                 document.getElementById('refreshBtn').addEventListener('click', () => loadData());
                 document.getElementById('massEmailBtn').addEventListener('click', sendMassEmail);
@@ -2141,6 +2138,7 @@
 
             document.addEventListener('contextmenu', (e) => e.preventDefault());
 
+            // Démarrer
             checkAuth();
 
         }); // Fin DOMContentLoaded
