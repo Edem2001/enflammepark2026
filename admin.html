@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ENFLAMMER • Tableau de bord Admin</title>
+    <title>ENFLAMMER · Tableau de bord Admin</title>
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -106,7 +106,7 @@
         }
 
         /* ======================================================
-                   PAGE DE CONNEXION MODERNISÉE
+                   PAGE DE CONNEXION MODERNISÉE (un seul champ)
                 ====================================================== */
         .login-overlay {
             position: fixed;
@@ -126,7 +126,6 @@
             pointer-events: none;
         }
 
-        /* Effet de lueur en arrière-plan */
         .login-overlay::before {
             content: '';
             position: absolute;
@@ -303,7 +302,6 @@
             padding: 6px 12px;
             display: inline-block;
         }
-        /* Animation shake pour erreur */
         @keyframes shake {
             0%,
             100% {
@@ -338,7 +336,7 @@
         }
 
         /* ======================================================
-                   HEADER ADMIN (inchangé)
+                   HEADER ADMIN
                 ====================================================== */
         .admin-header {
             position: fixed;
@@ -452,7 +450,7 @@
         }
 
         /* ======================================================
-                   MAIN LAYOUT (inchangé)
+                   MAIN LAYOUT
                 ====================================================== */
         .admin-main {
             padding-top: 85px;
@@ -1105,7 +1103,7 @@
     <div class="page-transition-overlay" id="pageTransition"></div>
 
     <!-- ============================================================
-    ÉCRAN DE CONNEXION MODERNISÉ
+    ÉCRAN DE CONNEXION (un seul champ : mot de passe)
     ============================================================ -->
     <div class="login-overlay" id="loginOverlay">
         <div class="login-card">
@@ -1115,16 +1113,7 @@
             <h1><span class="gold">ENFLAMMER</span> Admin</h1>
             <p class="sub">Accès sécurisé aux organisateurs</p>
 
-            <!-- Champ Identifiant (design) -->
-            <div class="form-group">
-                <label for="adminUsername">Identifiant</label>
-                <div class="input-wrapper">
-                    <i class="fas fa-user"></i>
-                    <input type="text" id="adminUsername" class="form-control" placeholder="Votre identifiant" value="admin" />
-                </div>
-            </div>
-
-            <!-- Champ Mot de passe (le seul vérifié) -->
+            <!-- Un seul champ : Mot de passe -->
             <div class="form-group">
                 <label for="adminPassword">Mot de passe <span style="color:var(--primary-light);">*</span></label>
                 <div class="input-wrapper">
@@ -1153,13 +1142,12 @@
                 <div class="brand">
                     <!-- LOGO : remplacez 'logo-awc.png' par le chemin de votre logo -->
                     <img src="logo-awc.png" alt="Logo" />
-                    <span class="title"><span class="gold">AGYINASARE</span> • Admin</span>
+                    <span class="title"><span class="gold">AGYINASARE</span> · Admin</span>
                 </div>
                 <div class="badge-live">
                     <span class="pulse-dot"></span> En direct
                 </div>
                 <div class="header-actions">
-                    <!-- Switch Jour/Nuit -->
                     <div class="theme-toggle" id="themeToggle" title="Basculer le mode jour/nuit">
                         <i class="fas fa-moon" id="themeIcon"></i>
                         <span id="themeLabel">Nuit</span>
@@ -1277,9 +1265,9 @@
                             </tbody>
                         </table>
                         <div class="pagination">
-                            <span id="paginationInfo">1-10 sur 20</span>
+                            <span id="paginationInfo">0-0 sur 0</span>
                             <button id="prevPage" disabled><i class="fas fa-chevron-left"></i></button>
-                            <button id="nextPage"><i class="fas fa-chevron-right"></i></button>
+                            <button id="nextPage" disabled><i class="fas fa-chevron-right"></i></button>
                         </div>
                     </div>
                 </div>
@@ -1289,7 +1277,6 @@
                 ========================================================== -->
                 <div class="tab-content" id="tab-pointage">
                     <div class="checkin-grid">
-                        <!-- Colonne gauche : Pointage -->
                         <div class="checkin-card">
                             <h4><i class="fas fa-fingerprint"></i> Pointage</h4>
                             <div class="day-selector" id="daySelector">
@@ -1312,7 +1299,6 @@
                             <button class="btn-sm danger" id="closeDayBtn" style="margin-top:16px;"><i class="fas fa-lock"></i> Clôturer la journée</button>
                         </div>
 
-                        <!-- Colonne droite : Historique -->
                         <div class="checkin-card">
                             <h4><i class="fas fa-history"></i> Derniers pointages</h4>
                             <div class="history-list" id="historyList">
@@ -1412,115 +1398,33 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
 
-            /* ==========================================================
-               DONNÉES FICTIVES (MOCK DATA)
-               REMPLACEZ CES DONNÉES PAR VOS APPELS VERS Google Apps Script
-               URL à utiliser : const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzNkJl1JFQiMJxeIEdQ40iIXDRSiYL2F25e5nY7RLQQagp8UgdACm2WjYt4wLCeWkxrZw/exec';
-            ========================================================== */
-            const MOCK_DATA = [
-                { id: 'ENF-001', nom: 'Soukpo', prenoms: 'Blaise', genre: 'Masculin', whatsapp: '+229 90 00 00 01',
-                    email: 'blaise@test.com', fonction: 'Pasteur', eglise: 'Perez Chapel', pays: 'Bénin',
-                    ville: 'Parakou', nationalite: 'Béninoise', source: 'Église', attentes: 'Renouveau',
-                    statut: 'Local', hotel: 'Non', budget: '', arrivee: '', depart: '', compagnie: '',
-                    present: { 1: true, 2: false, 3: true } },
-                { id: 'ENF-002', nom: 'Kumar', prenoms: 'Jean', genre: 'Masculin', whatsapp: '+229 91 00 00 02',
-                    email: 'jean@test.com', fonction: 'Évangéliste', eglise: 'Assemblées de Dieu', pays: 'Nigeria',
-                    ville: 'Lagos', nationalite: 'Nigériane', source: 'Réseaux sociaux', attentes: 'Salut',
-                    statut: 'International', hotel: 'Oui', budget: '50000', arrivee: '2026-09-15',
-                    depart: '2026-09-19', compagnie: 'Air France', present: { 1: true, 2: true, 3: false } },
-                { id: 'ENF-003', nom: 'Agyinasare', prenoms: 'Francis', genre: 'Masculin', whatsapp: '+233 55 00 00 03',
-                    email: 'francis@ag.org', fonction: 'Apôtre', eglise: 'Perez Chapel', pays: 'Ghana',
-                    ville: 'Accra', nationalite: 'Ghanéenne', source: 'Télévision', attentes: 'Onction',
-                    statut: 'International', hotel: 'Oui', budget: '75000', arrivee: '2026-09-14',
-                    depart: '2026-09-20', compagnie: 'Ethiopian', present: { 1: true, 2: true, 3: true } },
-                { id: 'ENF-004', nom: 'Dossou', prenoms: 'Marie', genre: 'Féminin', whatsapp: '+229 92 00 00 04',
-                    email: 'marie@test.com', fonction: 'Diacre', eglise: 'Cathédrale', pays: 'Bénin',
-                    ville: 'Cotonou', nationalite: 'Béninoise', source: 'Ami/Famille', attentes: 'Guérison',
-                    statut: 'Local', hotel: 'Non', budget: '', arrivee: '', depart: '', compagnie: '',
-                    present: { 1: false, 2: false, 3: false } },
-                { id: 'ENF-005', nom: 'Tchibozo', prenoms: 'David', genre: 'Masculin', whatsapp: '+229 93 00 00 05',
-                    email: 'david@test.com', fonction: 'Pasteur', eglise: 'Vie Abondante', pays: 'Togo',
-                    ville: 'Lomé', nationalite: 'Togolaise', source: 'Radio', attentes: 'Enseignement',
-                    statut: 'International', hotel: 'Non', budget: '', arrivee: '2026-09-16', depart: '2026-09-18',
-                    compagnie: '', present: { 1: true, 2: false, 3: false } },
-                { id: 'ENF-006', nom: 'Zinsou', prenoms: 'Esther', genre: 'Féminin', whatsapp: '+229 94 00 00 06',
-                    email: 'esther@test.com', fonction: 'Chantre', eglise: 'Perez Chapel', pays: 'Bénin',
-                    ville: 'Porto-Novo', nationalite: 'Béninoise', source: 'Église', attentes: 'Louange',
-                    statut: 'Local', hotel: 'Non', budget: '', arrivee: '', depart: '', compagnie: '',
-                    present: { 1: false, 2: true, 3: false } },
-                { id: 'ENF-007', nom: 'Osei', prenoms: 'Kwame', genre: 'Masculin', whatsapp: '+233 56 00 00 07',
-                    email: 'kwame@ag.org', fonction: 'Évangéliste', eglise: 'Perez Chapel', pays: 'Ghana',
-                    ville: 'Kumasi', nationalite: 'Ghanéenne', source: 'Réseaux sociaux', attentes: 'Prophétie',
-                    statut: 'International', hotel: 'Oui', budget: '60000', arrivee: '2026-09-15',
-                    depart: '2026-09-19', compagnie: 'KLM', present: { 1: true, 2: true, 3: true } },
-                { id: 'ENF-008', nom: 'Mensah', prenoms: 'Grace', genre: 'Féminin', whatsapp: '+233 57 00 00 08',
-                    email: 'grace@ag.org', fonction: 'Pasteur', eglise: 'Perez Chapel', pays: 'Ghana',
-                    ville: 'Accra', nationalite: 'Ghanéenne', source: 'Télévision', attentes: 'Délivrance',
-                    statut: 'International', hotel: 'Oui', budget: '55000', arrivee: '2026-09-14',
-                    depart: '2026-09-20', compagnie: 'Brussels', present: { 1: false, 2: true, 3: true } },
-                { id: 'ENF-009', nom: 'Hounkpatin', prenoms: 'Célestin', genre: 'Masculin', whatsapp: '+229 95 00 00 09',
-                    email: 'celestin@test.com', fonction: 'Diacre', eglise: 'Église Méthodiste', pays: 'Bénin',
-                    ville: 'Abomey', nationalite: 'Béninoise', source: 'Ami/Famille', attentes: 'Communion',
-                    statut: 'Local', hotel: 'Non', budget: '', arrivee: '', depart: '', compagnie: '',
-                    present: { 1: false, 2: false, 3: false } },
-                { id: 'ENF-010', nom: 'Alidou', prenoms: 'Rachida', genre: 'Féminin', whatsapp: '+229 96 00 00 10',
-                    email: 'rachida@test.com', fonction: 'Pasteur', eglise: 'Assemblées de Dieu', pays: 'Niger',
-                    ville: 'Niamey', nationalite: 'Nigérienne', source: 'Radio', attentes: 'Mission',
-                    statut: 'International', hotel: 'Non', budget: '', arrivee: '2026-09-16', depart: '2026-09-18',
-                    compagnie: '', present: { 1: true, 2: false, 3: false } },
-            ];
+             ==========================================================
+               CONFIGURATION
+            ========================================================== 
+            / === URL DE VOTRE SCRIPT GOOGLE APPS SCRIPT (à remplacer) ===
+            const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxuPmjC9p5E8LLxwEYmeTwEUGHkzHryUVRy9mwxDCokAog5iUKVIqZatIu44MM9WiCDKw/exec'
 
-            // Ajout de participants supplémentaires pour grossir la liste
-            const extraNoms = ['Kouassi', 'Bamba', 'Soro', 'Konan', 'Koffi', 'N\'Guessan', 'Yao', 'Gnahoré'];
-            for (let i = 0; i < 15; i++) {
-                const idx = i % extraNoms.length;
-                MOCK_DATA.push({
-                    id: 'ENF-' + String(101 + i).padStart(3, '0'),
-                    nom: extraNoms[idx],
-                    prenoms: 'Participant ' + (i + 1),
-                    genre: i % 2 === 0 ? 'Masculin' : 'Féminin',
-                    whatsapp: '+225 00 00 00 ' + String(i).padStart(2, '0'),
-                    email: 'p' + (i + 1) + '@test.com',
-                    fonction: 'Membre',
-                    eglise: i % 3 === 0 ? 'Perez Chapel' : (i % 2 === 0 ? 'Assemblées de Dieu' : 'Église Locale'),
-                    pays: i % 4 === 0 ? 'Bénin' : (i % 4 === 1 ? 'Ghana' : (i % 4 === 2 ? 'Nigeria' : 'Togo')),
-                    ville: 'Ville ' + (i + 1),
-                    nationalite: 'Divers',
-                    source: 'Réseaux sociaux',
-                    attentes: 'Bénédiction',
-                    statut: i % 3 === 0 ? 'International' : 'Local',
-                    hotel: i % 5 === 0 ? 'Oui' : 'Non',
-                    budget: i % 5 === 0 ? '45000' : '',
-                    arrivee: i % 5 === 0 ? '2026-09-15' : '',
-                    depart: i % 5 === 0 ? '2026-09-19' : '',
-                    compagnie: i % 5 === 0 ? 'Air France' : '',
-                    present: { 1: i % 2 === 0, 2: i % 3 === 0, 3: i % 4 === 0 }
-                });
-            }
+            // Mot de passe admin
+            const ADMIN_PASSWORD = '1234';
 
-            /* ==========================================================
+             ==========================================================
                VARIABLES GLOBALES
             ========================================================== */
-            let allParticipants = [...MOCK_DATA];
-            let filteredParticipants = [...allParticipants];
+            let allParticipants = [];
+            let filteredParticipants = [];
             let currentPage = 1;
             const pageSize = 20;
             let currentDay = 1; // 1,2,3
             let charts = {};
-
-            // URL du script (à remplacer)
-            const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzVotreID/exec';
+            let isLoading = false;
 
             /* ==========================================================
-               AUTHENTIFICATION ADMIN (MODERNISÉE)
+               AUTHENTIFICATION
             ========================================================== */
-            const ADMIN_PASSWORD = '1234'; // ⬅️ MODIFIEZ ICI POUR CHANGER LE MOT DE PASSE
-
             const loginOverlay = document.getElementById('loginOverlay');
             const adminApp = document.getElementById('adminApp');
             const loginBtn = document.getElementById('loginBtn');
             const adminPassword = document.getElementById('adminPassword');
-            const adminUsername = document.getElementById('adminUsername');
             const loginError = document.getElementById('loginError');
             const logoutBtn = document.getElementById('logoutBtn');
 
@@ -1553,12 +1457,9 @@
             }
 
             loginBtn.addEventListener('click', attemptLogin);
-
             adminPassword.addEventListener('keydown', function(e) {
                 if (e.key === 'Enter') loginBtn.click();
             });
-
-            // Forcer le focus sur le champ mot de passe au chargement
             adminPassword.focus();
 
             logoutBtn.addEventListener('click', function() {
@@ -1599,80 +1500,80 @@
             });
 
             /* ==========================================================
-               INITIALISATION DE L'APP (après connexion)
+               CHARGEMENT DES DONNÉES DEPUIS GOOGLE SHEETS
             ========================================================== */
-            function initApp() {
-                loadData();
-                initCharts();
-                populateFilters();
-                renderTable();
-                updateStats();
-                updateCheckinStats();
-                populateReportSelects();
+            async function loadData() {
+                if (isLoading) return;
+                isLoading = true;
 
-                document.querySelectorAll('.tab-btn').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-                        this.classList.add('active');
-                        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-                        document.getElementById('tab-' + this.dataset.tab).classList.add('active');
-                        if (this.dataset.tab === 'dashboard') {
-                            setTimeout(() => {
-                                Object.values(charts).forEach(c => c.resize());
-                            }, 100);
-                        }
-                    });
-                });
+                try {
+                    // Afficher un indicateur de chargement sur les stats
+                    document.getElementById('statTotal').textContent = '...';
+                    document.getElementById('statPresent').textContent = '...';
+                    document.getElementById('statAbsent').textContent = '...';
+                    document.getElementById('statCountries').textContent = '...';
 
-                document.getElementById('searchInput').addEventListener('input', renderTable);
-                document.getElementById('filterPays').addEventListener('change', renderTable);
-                document.getElementById('filterStatut').addEventListener('change', renderTable);
-                document.getElementById('prevPage').addEventListener('click', () => { if (currentPage > 1) { currentPage--;
-                        renderTable(); } });
-                document.getElementById('nextPage').addEventListener('click', () => { currentPage++;
-                    renderTable(); });
+                    const response = await fetch(SCRIPT_URL + '?action=getData');
+                    if (!response.ok) throw new Error('Erreur réseau');
+                    const result = await response.json();
 
-                document.querySelectorAll('#daySelector button').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        document.querySelectorAll('#daySelector button').forEach(b => b.classList.remove(
-                        'active'));
-                        this.classList.add('active');
-                        currentDay = parseInt(this.dataset.day);
+                    if (result.status === 'success') {
+                        allParticipants = result.data || [];
+                        // S'assurer que chaque participant a un objet 'present'
+                        allParticipants.forEach(p => {
+                            if (typeof p.Présent === 'string') {
+                                try {
+                                    p.Présent = JSON.parse(p.Présent);
+                                } catch (e) {
+                                    p.Présent = { 1: false, 2: false, 3: false };
+                                }
+                            } else if (!p.Présent) {
+                                p.Présent = { 1: false, 2: false, 3: false };
+                            }
+                            // Normaliser les noms de colonnes pour correspondre aux attentes du tableau
+                            // On va créer un alias pour simplifier
+                            p.id = p.ID || '';
+                            p.nom = p.Nom || '';
+                            p.prenoms = p.Prénoms || '';
+                            p.email = p.Email || '';
+                            p.whatsapp = p.WhatsApp || '';
+                            p.eglise = p['Ministère/Église'] || p.eglise || '';
+                            p.pays = p.Pays || '';
+                            p.statut = p.Statut || '';
+                            p.hotel = p.Hôtel || '';
+                            p.present = p.Présent || { 1: false, 2: false, 3: false };
+                            p.fonction = p.Fonction || '';
+                            p.genre = p.Genre || '';
+                            p.ville = p.Ville || '';
+                            p.nationalite = p.Nationalité || '';
+                            p.source = p.Source || '';
+                            p.attentes = p.Attentes || '';
+                            p.budget = p.Budget || '';
+                            p.arrivee = p.Arrivée || '';
+                            p.depart = p.Départ || '';
+                            p.compagnie = p.Compagnie || '';
+                        });
+
+                        filteredParticipants = [...allParticipants];
+                        // Réinitialiser la pagination
+                        currentPage = 1;
+                        // Mettre à jour l'affichage
+                        populateFilters();
+                        populateReportSelects();
+                        renderTable();
+                        updateStats();
                         updateCheckinStats();
-                    });
-                });
-
-                document.getElementById('checkinBtn').addEventListener('click', handleCheckin);
-                document.getElementById('closeDayBtn').addEventListener('click', closeDay);
-                document.getElementById('addReminderBtn').addEventListener('click', addReminder);
-
-                document.getElementById('exportExcelBtn').addEventListener('click', () => exportExcel(filteredParticipants));
-                document.getElementById('refreshBtn').addEventListener('click', () => { loadData();
-                    renderTable();
-                    updateStats(); });
-                document.getElementById('massEmailBtn').addEventListener('click', sendMassEmail);
-
-                document.getElementById('exportCountryBtn').addEventListener('click', () => exportByFilter('pays',
-                    document.getElementById('reportCountry').value));
-                document.getElementById('exportEgliseBtn').addEventListener('click', () => exportByFilter('eglise',
-                    document.getElementById('reportEglise').value));
-                document.getElementById('exportPresenceBtn').addEventListener('click', () => exportByPresence(document
-                    .getElementById('reportPresence').value));
-                document.getElementById('exportInternationalBtn').addEventListener('click', () => exportInternational());
-                document.getElementById('exportPdfFullBtn').addEventListener('click', exportPdfFull);
-                document.getElementById('exportPdfCheckinBtn').addEventListener('click', exportPdfCheckin);
-            }
-
-            /* ==========================================================
-               CHARGEMENT DES DONNÉES (Mock / API)
-            ========================================================== */
-            function loadData() {
-                // Utilisation des données fictives
-                allParticipants = [...MOCK_DATA];
-                filteredParticipants = [...allParticipants];
-                currentPage = 1;
-                populateFilters();
-                populateReportSelects();
+                        initCharts();
+                    } else {
+                        console.error('Erreur API:', result.message);
+                        alert('Erreur de chargement des données: ' + result.message);
+                    }
+                } catch (error) {
+                    console.error('Erreur:', error);
+                    alert('Impossible de charger les données. Vérifiez que le script est déployé et que l\'URL est correcte.');
+                } finally {
+                    isLoading = false;
+                }
             }
 
             /* ==========================================================
@@ -1684,13 +1585,13 @@
                 const statutFilter = document.getElementById('filterStatut').value;
 
                 filteredParticipants = allParticipants.filter(p => {
-                    const matchSearch = p.id.toLowerCase().includes(search) ||
-                        p.nom.toLowerCase().includes(search) ||
-                        p.prenoms.toLowerCase().includes(search) ||
-                        p.email.toLowerCase().includes(search) ||
-                        p.eglise.toLowerCase().includes(search);
-                    const matchPays = paysFilter === '' || p.pays === paysFilter;
-                    const matchStatut = statutFilter === '' || p.statut === statutFilter;
+                    const matchSearch = (p.id || '').toLowerCase().includes(search) ||
+                        (p.nom || '').toLowerCase().includes(search) ||
+                        (p.prenoms || '').toLowerCase().includes(search) ||
+                        (p.email || '').toLowerCase().includes(search) ||
+                        (p.eglise || '').toLowerCase().includes(search);
+                    const matchPays = paysFilter === '' || (p.pays || '') === paysFilter;
+                    const matchStatut = statutFilter === '' || (p.statut || '') === statutFilter;
                     return matchSearch && matchPays && matchStatut;
                 });
 
@@ -1706,27 +1607,30 @@
                     tbody.innerHTML =
                         '<tr><td colspan="11" style="text-align:center;padding:40px;color:var(--text-secondary);">Aucun participant trouvé</td></tr>';
                 } else {
-                    tbody.innerHTML = pageData.map(p => `
-                        <tr>
-                            <td><strong>${p.id}</strong></td>
-                            <td>${p.nom}</td>
-                            <td>${p.prenoms}</td>
-                            <td>${p.email}</td>
-                            <td>${p.whatsapp}</td>
-                            <td>${p.eglise}</td>
-                            <td>${p.pays}</td>
-                            <td><span class="badge-status ${p.statut === 'Local' ? 'badge-local' : 'badge-international'}">${p.statut}</span></td>
-                            <td>${p.hotel}</td>
-                            <td><span class="badge-status ${p.present[currentDay] ? 'badge-present' : 'badge-absent'}">${p.present[currentDay] ? 'Présent' : 'Absent'}</span></td>
-                            <td><button class="btn-sm" onclick="sendIndividualEmail('${p.email}', '${p.nom} ${p.prenoms}')" title="Envoyer un email"><i class="fas fa-envelope"></i></button></td>
-                        </tr>
-                    `).join('');
+                    tbody.innerHTML = pageData.map(p => {
+                        const presentStatus = p.present && p.present[currentDay] ? true : false;
+                        return `
+                            <tr>
+                                <td><strong>${p.id || ''}</strong></td>
+                                <td>${p.nom || ''}</td>
+                                <td>${p.prenoms || ''}</td>
+                                <td>${p.email || ''}</td>
+                                <td>${p.whatsapp || ''}</td>
+                                <td>${p.eglise || ''}</td>
+                                <td>${p.pays || ''}</td>
+                                <td><span class="badge-status ${(p.statut || '') === 'Local' ? 'badge-local' : 'badge-international'}">${p.statut || ''}</span></td>
+                                <td>${p.hotel || ''}</td>
+                                <td><span class="badge-status ${presentStatus ? 'badge-present' : 'badge-absent'}">${presentStatus ? 'Présent' : 'Absent'}</span></td>
+                                <td><button class="btn-sm" onclick="sendIndividualEmail('${p.email || ''}', '${(p.prenoms || '') + ' ' + (p.nom || '')}')" title="Envoyer un email"><i class="fas fa-envelope"></i></button></td>
+                            </tr>
+                        `;
+                    }).join('');
                 }
 
                 document.getElementById('paginationInfo').textContent =
                     `${total === 0 ? 0 : start + 1}-${end} sur ${total}`;
-                document.getElementById('prevPage').disabled = currentPage <= 1;
-                document.getElementById('nextPage').disabled = currentPage >= totalPages;
+                document.getElementById('prevPage').disabled = currentPage <= 1 || total === 0;
+                document.getElementById('nextPage').disabled = currentPage >= totalPages || total === 0;
 
                 updateStats();
             }
@@ -1736,14 +1640,14 @@
             ========================================================== */
             function updateStats() {
                 const total = allParticipants.length;
-                const presents = allParticipants.filter(p => p.present[currentDay]).length;
+                const presents = allParticipants.filter(p => p.present && p.present[currentDay]).length;
                 const absents = total - presents;
-                const countries = new Set(allParticipants.map(p => p.pays)).size;
+                const countries = new Set(allParticipants.map(p => p.pays || '')).size;
 
                 document.getElementById('statTotal').textContent = total;
                 document.getElementById('statPresent').textContent = presents;
                 document.getElementById('statAbsent').textContent = absents;
-                document.getElementById('statCountries').textContent = countries;
+                document.getElementById('statCountries').textContent = countries || 0;
                 document.getElementById('statPresentDay').textContent = `Jour ${currentDay}`;
                 document.getElementById('statAbsentDay').textContent = `Jour ${currentDay}`;
 
@@ -1759,8 +1663,10 @@
                 const ctxSources = document.getElementById('chartSources').getContext('2d');
                 const ctxEglises = document.getElementById('chartEglises').getContext('2d');
 
+                // Répartition par pays
                 const paysMap = {};
-                allParticipants.forEach(p => { paysMap[p.pays] = (paysMap[p.pays] || 0) + 1; });
+                allParticipants.forEach(p => { const key = p.pays || 'Inconnu';
+                    paysMap[key] = (paysMap[key] || 0) + 1; });
                 const paysLabels = Object.keys(paysMap);
                 const paysData = Object.values(paysMap);
 
@@ -1783,13 +1689,28 @@
                     }
                 });
 
+                // Évolution (basée sur les dates d'inscription)
+                const dateMap = {};
+                allParticipants.forEach(p => {
+                    if (p.Date) {
+                        const d = new Date(p.Date);
+                        const key = d.toLocaleDateString('fr-FR');
+                        dateMap[key] = (dateMap[key] || 0) + 1;
+                    }
+                });
+                const sortedDates = Object.keys(dateMap).sort((a, b) => new Date(a) - new Date(b));
+                const evolutionData = sortedDates.map(d => dateMap[d]);
+                // Cumul
+                let cumul = 0;
+                const cumulData = evolutionData.map(v => { cumul += v; return cumul; });
+
                 charts.evolution = new Chart(ctxEvolution, {
                     type: 'line',
                     data: {
-                        labels: ['1er sept', '5 sept', '10 sept', '15 sept', '16 sept', '17 sept', '18 sept'],
+                        labels: sortedDates.length ? sortedDates : ['Aucune date'],
                         datasets: [{
-                            label: 'Inscriptions',
-                            data: [5, 12, 25, 40, 55, 65, allParticipants.length],
+                            label: 'Inscriptions cumulées',
+                            data: sortedDates.length ? cumulData : [0],
                             borderColor: '#D4AF37',
                             backgroundColor: 'rgba(212, 175, 55, 0.1)',
                             tension: 0.3,
@@ -1809,6 +1730,7 @@
                     }
                 });
 
+                // Sources
                 const srcMap = {};
                 allParticipants.forEach(p => { const s = p.source || 'Inconnu';
                     srcMap[s] = (srcMap[s] || 0) + 1; });
@@ -1830,8 +1752,10 @@
                     }
                 });
 
+                // Églises
                 const eglMap = {};
-                allParticipants.forEach(p => { eglMap[p.eglise] = (eglMap[p.eglise] || 0) + 1; });
+                allParticipants.forEach(p => { const key = p.eglise || 'Non renseigné';
+                    eglMap[key] = (eglMap[key] || 0) + 1; });
                 const eglLabels = Object.keys(eglMap);
                 const eglData = Object.values(eglMap);
                 charts.eglises = new Chart(ctxEglises, {
@@ -1866,7 +1790,7 @@
                FILTRES
             ========================================================== */
             function populateFilters() {
-                const paysSet = new Set(allParticipants.map(p => p.pays));
+                const paysSet = new Set(allParticipants.map(p => p.pays || '').filter(p => p));
                 const paysSelect = document.getElementById('filterPays');
                 const currentVal = paysSelect.value;
                 paysSelect.innerHTML = '<option value="">Tous les pays</option>';
@@ -1879,8 +1803,8 @@
             }
 
             function populateReportSelects() {
-                const paysSet = new Set(allParticipants.map(p => p.pays));
-                const egliseSet = new Set(allParticipants.map(p => p.eglise));
+                const paysSet = new Set(allParticipants.map(p => p.pays || '').filter(p => p));
+                const egliseSet = new Set(allParticipants.map(p => p.eglise || '').filter(e => e));
 
                 const reportCountry = document.getElementById('reportCountry');
                 const reportEglise = document.getElementById('reportEglise');
@@ -1896,7 +1820,7 @@
                POINTAGE
             ========================================================== */
             function updateCheckinStats() {
-                const presents = allParticipants.filter(p => p.present[currentDay]).length;
+                const presents = allParticipants.filter(p => p.present && p.present[currentDay]).length;
                 const total = allParticipants.length;
                 document.getElementById('checkinPresentCount').textContent = presents;
                 document.getElementById('checkinAbsentCount').textContent = total - presents;
@@ -1905,7 +1829,7 @@
                 document.getElementById('dayClosedBadge').style.display = closed ? 'inline' : 'none';
             }
 
-            function handleCheckin() {
+            async function handleCheckin() {
                 const id = document.getElementById('checkinIdInput').value.trim();
                 if (!id) {
                     document.getElementById('checkinResult').innerHTML = '<span style="color:#e74c3c;">Veuillez entrer un ID.</span>';
@@ -1917,30 +1841,53 @@
                         '<span style="color:#e74c3c;">❌ Participant non trouvé.</span>';
                     return;
                 }
-                if (participant.present[currentDay]) {
+                if (participant.present && participant.present[currentDay]) {
                     document.getElementById('checkinResult').innerHTML =
                         `<span style="color:#f1c40f;">⚠️ ${participant.prenoms} ${participant.nom} est déjà pointé.</span>`;
                     return;
                 }
-                participant.present[currentDay] = true;
-                document.getElementById('checkinResult').innerHTML =
-                    `<span style="color:#2ecc71;">✅ ${participant.prenoms} ${participant.nom} (${participant.id}) pointé avec succès.</span>`;
 
-                const historyList = document.getElementById('historyList');
-                const now = new Date().toLocaleTimeString();
-                const item = document.createElement('div');
-                item.className = 'history-item';
-                item.innerHTML =
-                    `<span><strong>${participant.prenoms} ${participant.nom}</strong> (${participant.id})</span><span style="color:var(--text-muted);">${now}</span>`;
-                if (historyList.querySelector('.history-item')?.textContent.includes('Aucun')) {
-                    historyList.innerHTML = '';
+                // Envoyer la mise à jour au serveur
+                try {
+                    const response = await fetch(SCRIPT_URL, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                        body: new URLSearchParams({
+                            action: 'updatePresence',
+                            payload: JSON.stringify({ id, present: true, day: currentDay })
+                        })
+                    });
+
+                    // Mettre à jour localement
+                    if (!participant.present) participant.present = { 1: false, 2: false, 3: false };
+                    participant.present[currentDay] = true;
+
+                    document.getElementById('checkinResult').innerHTML =
+                        `<span style="color:#2ecc71;">✅ ${participant.prenoms} ${participant.nom} (${participant.id}) pointé avec succès.</span>`;
+
+                    // Ajouter à l'historique
+                    const historyList = document.getElementById('historyList');
+                    const now = new Date().toLocaleTimeString();
+                    const item = document.createElement('div');
+                    item.className = 'history-item';
+                    item.innerHTML =
+                        `<span><strong>${participant.prenoms} ${participant.nom}</strong> (${participant.id})</span><span style="color:var(--text-muted);">${now}</span>`;
+                    if (historyList.querySelector('.history-item')?.textContent.includes('Aucun')) {
+                        historyList.innerHTML = '';
+                    }
+                    historyList.prepend(item);
+
+                    renderTable();
+                    updateStats();
+                    updateCheckinStats();
+                    document.getElementById('checkinIdInput').value = '';
+
+                } catch (error) {
+                    console.error('Erreur pointage:', error);
+                    document.getElementById('checkinResult').innerHTML =
+                        '<span style="color:#e74c3c;">❌ Erreur lors du pointage. Vérifiez la connexion.</span>';
                 }
-                historyList.prepend(item);
-
-                renderTable();
-                updateStats();
-                updateCheckinStats();
-                document.getElementById('checkinIdInput').value = '';
             }
 
             function closeDay() {
@@ -2004,10 +1951,33 @@
             };
 
             /* ==========================================================
-               ENVOI D'EMAILS (simulé)
+               ENVOI D'EMAILS (API connectée)
             ========================================================== */
             window.sendIndividualEmail = function(email, name) {
-                alert(`📧 Envoi d'un email individuel à ${name} (${email})\n(Simulation - API à connecter)`);
+                if (!email) {
+                    alert('Adresse email manquante.');
+                    return;
+                }
+                const subject = prompt('Sujet de l\'email :', 'ENFLAMMER 2026 - Information');
+                if (subject === null) return;
+                const message = prompt('Message :', 'Bonjour [NOM],\n\nNous vous attendons à la conférence ENFLAMMER...');
+                if (message === null) return;
+
+                // Envoyer via l'API
+                fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: new URLSearchParams({
+                        action: 'sendIndividualEmail',
+                        payload: JSON.stringify({ email, subject, message })
+                    })
+                }).then(() => {
+                    alert(`✅ Email envoyé à ${name} (${email})`);
+                }).catch(err => {
+                    alert('❌ Erreur lors de l\'envoi.');
+                    console.error(err);
+                });
             };
 
             function sendMassEmail() {
@@ -2016,8 +1986,22 @@
                 const message = prompt('Message :', 'Bonjour [NOM],\n\nNous vous attendons à la conférence ENFLAMMER...');
                 if (message === null) return;
 
-                const emails = allParticipants.map(p => p.email).join(', ');
-                alert(`📨 Envoi d'un email en masse à ${allParticipants.length} participants.\nSujet: ${subject}\nMessage: ${message.substring(0, 100)}...\n(Simulation - API à connecter)`);
+                const emails = allParticipants.map(p => p.email).filter(e => e).join(',');
+
+                fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: new URLSearchParams({
+                        action: 'sendMassEmail',
+                        payload: JSON.stringify({ subject, message, emails })
+                    })
+                }).then(() => {
+                    alert(`📨 Envoi en masse lancé vers ${allParticipants.length} participants.`);
+                }).catch(err => {
+                    alert('❌ Erreur lors de l\'envoi.');
+                    console.error(err);
+                });
             }
 
             /* ==========================================================
@@ -2033,18 +2017,18 @@
 
             function exportByFilter(field, value) {
                 if (!value) { alert('Veuillez sélectionner un filtre.'); return; }
-                const data = allParticipants.filter(p => p[field] === value);
+                const data = allParticipants.filter(p => (p[field] || '') === value);
                 exportExcel(data);
             }
 
             function exportByPresence(status) {
                 const isPresent = status === 'Présent';
-                const data = allParticipants.filter(p => p.present[currentDay] === isPresent);
+                const data = allParticipants.filter(p => p.present && p.present[currentDay] === isPresent);
                 exportExcel(data);
             }
 
             function exportInternational() {
-                const data = allParticipants.filter(p => p.statut === 'International');
+                const data = allParticipants.filter(p => (p.statut || '') === 'International');
                 exportExcel(data);
             }
 
@@ -2057,7 +2041,7 @@
                     <hr/>
                     <table border="1" cellpadding="8" style="width:100%;border-collapse:collapse;font-size:12px;">
                         <thead><tr><th>ID</th><th>Nom</th><th>Prénoms</th><th>Pays</th><th>Statut</th></tr></thead>
-                        <tbody>${allParticipants.map(p => `<tr><td>${p.id}</td><td>${p.nom}</td><td>${p.prenoms}</td><td>${p.pays}</td><td>${p.statut}</td></tr>`).join('')}</tbody>
+                        <tbody>${allParticipants.map(p => `<tr><td>${p.id || ''}</td><td>${p.nom || ''}</td><td>${p.prenoms || ''}</td><td>${p.pays || ''}</td><td>${p.statut || ''}</td></tr>`).join('')}</tbody>
                     </table>
                 `;
                 html2pdf().from(element).save('Rapport_ENFLAMMER.pdf');
@@ -2069,10 +2053,77 @@
                     <h1 style="font-size:24px;margin-bottom:12px;">Liste de présence - Jour ${currentDay}</h1>
                     <table border="1" cellpadding="8" style="width:100%;border-collapse:collapse;font-size:12px;">
                         <thead><tr><th>ID</th><th>Nom</th><th>Prénoms</th><th>Statut</th></tr></thead>
-                        <tbody>${allParticipants.map(p => `<tr><td>${p.id}</td><td>${p.nom}</td><td>${p.prenoms}</td><td>${p.present[currentDay] ? '✅ Présent' : '❌ Absent'}</td></tr>`).join('')}</tbody>
+                        <tbody>${allParticipants.map(p => `<tr><td>${p.id || ''}</td><td>${p.nom || ''}</td><td>${p.prenoms || ''}</td><td>${(p.present && p.present[currentDay]) ? '✅ Présent' : '❌ Absent'}</td></tr>`).join('')}</tbody>
                     </table>
                 `;
                 html2pdf().from(element).save(`Liste_Presence_Jour${currentDay}.pdf`);
+            }
+
+            /* ==========================================================
+               INITIALISATION DE L'APP
+            ========================================================== */
+            function initApp() {
+                // Charger les données depuis le serveur
+                loadData();
+
+                // Événements des onglets
+                document.querySelectorAll('.tab-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                        this.classList.add('active');
+                        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                        document.getElementById('tab-' + this.dataset.tab).classList.add('active');
+                        if (this.dataset.tab === 'dashboard') {
+                            setTimeout(() => {
+                                Object.values(charts).forEach(c => c.resize());
+                            }, 100);
+                        }
+                    });
+                });
+
+                // Événements du tableau
+                document.getElementById('searchInput').addEventListener('input', renderTable);
+                document.getElementById('filterPays').addEventListener('change', renderTable);
+                document.getElementById('filterStatut').addEventListener('change', renderTable);
+                document.getElementById('prevPage').addEventListener('click', () => { if (currentPage > 1) { currentPage--;
+                        renderTable(); } });
+                document.getElementById('nextPage').addEventListener('click', () => { currentPage++;
+                    renderTable(); });
+
+                // Pointage
+                document.querySelectorAll('#daySelector button').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        document.querySelectorAll('#daySelector button').forEach(b => b.classList.remove(
+                        'active'));
+                        this.classList.add('active');
+                        currentDay = parseInt(this.dataset.day);
+                        renderTable();
+                        updateStats();
+                        updateCheckinStats();
+                    });
+                });
+
+                document.getElementById('checkinBtn').addEventListener('click', handleCheckin);
+                document.getElementById('closeDayBtn').addEventListener('click', closeDay);
+
+                // Rappels
+                document.getElementById('addReminderBtn').addEventListener('click', addReminder);
+                renderReminders();
+
+                // Exports
+                document.getElementById('exportExcelBtn').addEventListener('click', () => exportExcel(filteredParticipants));
+                document.getElementById('refreshBtn').addEventListener('click', () => loadData());
+                document.getElementById('massEmailBtn').addEventListener('click', sendMassEmail);
+
+                document.getElementById('exportCountryBtn').addEventListener('click', () => exportByFilter('pays',
+                    document.getElementById('reportCountry').value));
+                document.getElementById('exportEgliseBtn').addEventListener('click', () => exportByFilter('eglise',
+                    document.getElementById('reportEglise').value));
+                document.getElementById('exportPresenceBtn').addEventListener('click', () => exportByPresence(document
+                    .getElementById('reportPresence').value));
+                document.getElementById('exportInternationalBtn').addEventListener('click', () => exportInternational());
+                document.getElementById('exportPdfFullBtn').addEventListener('click', exportPdfFull);
+                document.getElementById('exportPdfCheckinBtn').addEventListener('click', exportPdfCheckin);
             }
 
             /* ==========================================================

@@ -47,34 +47,6 @@
             overflow-x: hidden;
             user-select: none;
             -webkit-user-select: none;
-            /* Transition de fondu à l'arrivée */
-            animation: pageFadeIn 0.8s ease forwards;
-        }
-
-        @keyframes pageFadeIn {
-            0% {
-                opacity: 0;
-                transform: translateY(12px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Overlay de transition entre les pages */
-        .page-transition-overlay {
-            position: fixed;
-            inset: 0;
-            background: #0e0d0d;
-            z-index: 99999;
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-        .page-transition-overlay.active {
-            opacity: 1;
-            pointer-events: all;
         }
 
         img {
@@ -95,7 +67,6 @@
         /* Scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
-            height: 8px;
         }
         ::-webkit-scrollbar-track {
             background: #1a1818;
@@ -155,6 +126,7 @@
             gap: 12px;
         }
 
+        /* === LOGO : remplacez 'logo-placeholder.png' par le chemin de votre logo === */
         .header-logo img {
             height: 44px;
             width: auto;
@@ -246,9 +218,6 @@
             .header-logo .brand-text {
                 font-size: 1rem;
             }
-            .header-logo img {
-                height: 36px;
-            }
         }
 
         /* ======================================================
@@ -263,8 +232,8 @@
             padding: 100px 0 60px;
             overflow: hidden;
             background: #0e0d0d;
-            /* IMAGE DE FOND : remplacez l'URL ci-dessous */
-            background-image: url('decree-bg.jpg');
+            /* === IMAGE DE FOND : remplacez l'URL ci-dessous === */
+            background-image: url('chemin/vers/votre-image-de-fond.jpg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -441,6 +410,7 @@
             justify-content: center;
             align-items: center;
         }
+        /* === AFFICHE : remplacez 'src' par le chemin de votre affiche === */
         .hero-poster img {
             max-width: 100%;
             max-height: 520px;
@@ -460,7 +430,6 @@
             .hero {
                 padding: 90px 0 40px;
                 background-attachment: scroll;
-                /* meilleur rendu sur mobile */
             }
             .hero-poster img {
                 max-height: 300px;
@@ -1005,17 +974,14 @@
 </head>
 <body>
 
-    <!-- Transition overlay pour la navigation entre pages -->
-    <div class="page-transition-overlay" id="pageTransition"></div>
-
     <!-- ============================================================
     HEADER / EN-TÊTE
     ============================================================ -->
     <header class="main-header" id="mainHeader">
         <div class="container">
             <div class="header-logo">
-                <!-- LOGO : remplacez 'logo-placeholder.png' par le chemin de votre logo -->
-                <img src="logo-awc.png" alt="Logo Agyinasare World Evangelism" />
+                <!-- === LOGO : remplacez 'logo-placeholder.png' par le chemin de votre logo === -->
+                <img src="logo-placeholder.png" alt="Logo Agyinasare World Evangelism" />
                 <span class="brand-text"><span class="gold">AGYINASARE</span> WORLD</span>
             </div>
             <button class="hamburger" id="hamburger" aria-label="Menu">
@@ -1026,7 +992,6 @@
                 <li><a href="#infos">Infos</a></li>
                 <li><a href="#formulaire">Inscription</a></li>
                 <li><a href="about.html">À propos</a></li>
-                <!-- Le bouton Admin a été retiré -->
             </ul>
         </div>
     </header>
@@ -1048,21 +1013,20 @@
                     <span id="typewriterText">Brûler dans un monde qui s'éteint</span>
                     <span class="cursor"></span>
                 </div>
-                <!-- Les statistiques (dates, lieu, thème) ont été supprimées -->
                 <div class="btn-group">
                     <a href="#formulaire" class="btn btn-primary"><i class="fas fa-pen-fancy"></i> S'inscrire</a>
                     <a href="#infos" class="btn btn-outline"><i class="fas fa-info-circle"></i> Infos pratiques</a>
                 </div>
             </div>
             <div class="hero-poster">
-                <!-- AFFICHE : remplacez 'src' par le chemin de votre affiche -->
-                <img src="affiche.jpg" alt="Affiche ENFLAMMER Parakou 2026" />
+                <!-- === AFFICHE : remplacez 'src' par le chemin de votre affiche === -->
+                <img src="affiche-enflammer.png" alt="Affiche ENFLAMMER Parakou 2026" />
             </div>
         </div>
     </section>
 
     <!-- ============================================================
-    INFOS PRATIQUES (horizontal scroll)
+    INFOS PRATIQUES
     ============================================================ -->
     <section id="infos" class="reveal">
         <div class="container">
@@ -1273,7 +1237,7 @@
                 <a href="about.html">À propos</a>
             </div>
             <p style="font-size:0.8rem; margin-top:12px;">&copy; 2026 AGYINASARE WORLD EVANGELISM · Parakou, Bénin</p>
-           
+            <p style="font-size:0.75rem; color:#6a625a;">Contact : (+229) 0151402849 · bsoukpo@yahoo.fr</p>
         </div>
     </footer>
 
@@ -1302,7 +1266,7 @@
             <span class="icon-check"><i class="fas fa-check-circle"></i></span>
             <h2>Inscription confirmée !</h2>
             <p style="font-size:1.1rem; font-weight:500;" id="modalName">Merci <span class="highlight">Prénoms Nom</span></p>
-            <p><strong>ID unique :</strong> <span id="modalId" class="highlight">ENF-PAR-2026-0001</span></p>
+            <!-- L'ID n'est plus affiché ici -->
             <p>Un email de confirmation vous a été envoyé.<br />Vérifiez votre boîte de réception (et vos <strong>spams</strong>).</p>
             <p style="font-size:0.9rem; background:rgba(255,215,0,0.06); padding:10px; border-radius:12px;">
                 <i class="fas fa-camera"></i> Faites une <strong>capture d'écran</strong> de cet écran pour l'entrée.
@@ -1437,17 +1401,17 @@
                 e.preventDefault();
                 const ics =
                     `BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//ENFLAMMER//Parakou 2026//FR
-BEGIN:VEVENT
-UID:${Date.now()}@enflammer.ag
-SUMMARY:ENFLAMMER Parakou 2026
-DESCRIPTION:Conférence "Brûler dans un monde qui s'éteint" avec l'Archevêque Charles Agyinasare.
-LOCATION:Centre de Prière Bethel\, Quartier Kpébi\, Parakou\, Bénin
-DTSTART:20260916T083000
-DTEND:20260918T213000
-END:VEVENT
-END:VCALENDAR`;
+        VERSION:2.0
+        PRODID:-//ENFLAMMER//Parakou 2026//FR
+        BEGIN:VEVENT
+        UID:${Date.now()}@enflammer.ag
+        SUMMARY:ENFLAMMER Parakou 2026
+        DESCRIPTION:Conférence "Brûler dans un monde qui s'éteint" avec l'Archevêque Charles Agyinasare.
+        LOCATION:Centre de Prière Bethel\, Quartier Kpébi\, Parakou\, Bénin
+        DTSTART:20260916T083000
+        DTEND:20260918T213000
+        END:VEVENT
+        END:VCALENDAR`;
                 const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
                 const link = document.createElement('a');
                 link.href = URL.createObjectURL(blob);
@@ -1464,20 +1428,21 @@ END:VCALENDAR`;
             const spinner = document.getElementById('spinnerOverlay');
             const modal = document.getElementById('confirmationModal');
             const modalName = document.getElementById('modalName');
-            const modalId = document.getElementById('modalId');
             const closeModalBtn = document.getElementById('closeModalBtn');
 
-            // À remplacer par votre URL de script
-            const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzNkJl1JFQiMJxeIEdQ40iIXDRSiYL2F25e5nY7RLQQagp8UgdACm2WjYt4wLCeWkxrZw/exec';
+            // === URL DE VOTRE SCRIPT GOOGLE APPS SCRIPT (à remplacer) ===
+            const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxuPmjC9p5E8LLxwEYmeTwEUGHkzHryUVRy9mwxDCokAog5iUKVIqZatIu44MM9WiCDKw/exec';
 
             form.addEventListener('submit', async function(e) {
                 e.preventDefault();
 
+                // Vérifier que le statut est sélectionné
                 if (!statutHidden.value) {
                     alert('Veuillez sélectionner votre statut (Local ou International).');
                     return;
                 }
 
+                // Validation des champs requis
                 const requiredFields = form.querySelectorAll('[required]');
                 let valid = true;
                 requiredFields.forEach(field => {
@@ -1509,6 +1474,7 @@ END:VCALENDAR`;
                     return;
                 }
 
+                // Collecte des données
                 const data = {
                     statut: statutHidden.value,
                     nom: document.getElementById('nom').value.trim(),
@@ -1534,9 +1500,10 @@ END:VCALENDAR`;
                 submitBtn.disabled = true;
 
                 try {
+                    // Envoi vers Google Apps Script
                     await fetch(SCRIPT_URL, {
                         method: 'POST',
-                        mode: 'no-cors',
+                        mode: 'no-cors', // obligatoire pour les requêtes cross-origin
                         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                         body: new URLSearchParams({
                             action: 'register',
@@ -1544,10 +1511,13 @@ END:VCALENDAR`;
                         })
                     });
 
+                    // Avec 'no-cors', on ne peut pas lire la réponse, mais on suppose que c'est bon
+                    // Afficher le modal de confirmation (sans l'ID)
                     const fullName = data.prenoms + ' ' + data.nom;
                     modalName.innerHTML = 'Merci <span class="highlight">' + fullName + '</span>';
-                    modalId.textContent = 'ENF-PAR-2026-' + String(Math.floor(1000 + Math.random() * 9000));
                     modal.classList.add('active');
+
+                    // Réinitialiser le formulaire
                     form.reset();
                     setActiveStatus('');
                     requiredFields.forEach(f => f.style.borderColor = '');
@@ -1555,8 +1525,8 @@ END:VCALENDAR`;
                     budgetGroup.style.display = 'none';
 
                 } catch (error) {
-                    console.error(error);
-                    alert('Une erreur est survenue. Veuillez réessayer.');
+                    console.error('Erreur:', error);
+                    alert('Une erreur est survenue. Veuillez réessayer ou contacter le support.');
                 } finally {
                     spinner.classList.remove('active');
                     submitBtn.disabled = false;
@@ -1566,33 +1536,13 @@ END:VCALENDAR`;
             closeModalBtn.addEventListener('click', () => modal.classList.remove('active'));
             modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('active'); });
 
+            // Désactiver le clic droit
             document.addEventListener('contextmenu', (e) => e.preventDefault());
 
+            // Réinitialiser le style des champs au focus
             document.querySelectorAll('.form-control').forEach(input => {
                 input.addEventListener('focus', function() { this.style.borderColor = ''; });
             });
-
-            /* ---------- TRANSITION DOUCE ENTRE LES PAGES ---------- */
-            const transitionOverlay = document.getElementById('pageTransition');
-            const internalLinks = document.querySelectorAll('a[href^="about.html"], a[href^="admin.html"]');
-
-            internalLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    const href = this.getAttribute('href');
-                    if (href.startsWith('#') || this.target === '_blank') return;
-                    e.preventDefault();
-                    // Lancer l'animation de sortie
-                    transitionOverlay.classList.add('active');
-                    // Après un délai, naviguer
-                    setTimeout(() => {
-                        window.location.href = href;
-                    }, 500);
-                });
-            });
-
-            // Si on arrive sur la page via un clic sur un lien interne, l'overlay est déjà actif ?
-            // On le désactive au chargement
-            transitionOverlay.classList.remove('active');
 
         });
     </script>
