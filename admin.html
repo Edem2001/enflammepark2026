@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ENFLAMMER · Tableau de bord Admin</title>
+    <title>ENFLAMMER • Tableau de bord Admin</title>
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -106,53 +106,114 @@
         }
 
         /* ======================================================
-                   PAGE DE CONNEXION
+                   PAGE DE CONNEXION MODERNISÉE
                 ====================================================== */
         .login-overlay {
             position: fixed;
             inset: 0;
-            background: var(--bg-body);
+            background: #0e0d0d;
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 99999;
             padding: 24px;
-            transition: opacity 0.5s ease, visibility 0.5s ease;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+            background: radial-gradient(ellipse at 50% 30%, #1f1a12 0%, #0e0d0d 70%);
         }
         .login-overlay.hidden {
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
         }
+
+        /* Effet de lueur en arrière-plan */
+        .login-overlay::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            left: -30%;
+            width: 160%;
+            height: 160%;
+            background: radial-gradient(circle at 30% 20%, rgba(184, 134, 11, 0.08) 0%, transparent 60%);
+            pointer-events: none;
+            animation: glowPulse 6s ease-in-out infinite alternate;
+        }
+        @keyframes glowPulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.6;
+            }
+            100% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
+        }
+
         .login-card {
-            background: var(--bg-card);
-            backdrop-filter: blur(16px);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius);
-            padding: 48px 40px;
+            position: relative;
+            background: rgba(18, 17, 17, 0.85);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border: 1px solid rgba(184, 134, 11, 0.20);
+            border-radius: 28px;
+            padding: 52px 44px;
             max-width: 420px;
             width: 100%;
-            box-shadow: var(--shadow);
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8), 0 0 60px rgba(184, 134, 11, 0.05);
             text-align: center;
+            animation: slideUp 0.7s cubic-bezier(0.22, 1, 0.36, 1);
         }
+        @keyframes slideUp {
+            0% {
+                opacity: 0;
+                transform: translateY(40px) scale(0.96);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
         .login-card .lock-icon {
-            font-size: 3rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(184, 134, 11, 0.08);
+            border: 1px solid rgba(184, 134, 11, 0.15);
+            font-size: 2.4rem;
             color: var(--primary-light);
-            margin-bottom: 12px;
+            margin-bottom: 20px;
+            transition: var(--transition);
         }
+        .login-card:hover .lock-icon {
+            box-shadow: 0 0 40px rgba(184, 134, 11, 0.15);
+        }
+
         .login-card h1 {
             font-family: 'Playfair Display', serif;
-            font-size: 2rem;
+            font-size: 2.2rem;
+            font-weight: 700;
             margin-bottom: 4px;
+            letter-spacing: -0.5px;
         }
         .login-card h1 .gold {
-            color: var(--primary-light);
+            background: linear-gradient(135deg, var(--primary-light), #f7e05e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         .login-card .sub {
             color: var(--text-secondary);
-            margin-bottom: 28px;
+            margin-bottom: 32px;
             font-size: 0.95rem;
+            font-weight: 400;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            padding-bottom: 16px;
         }
+
         .login-card .form-group {
             margin-bottom: 20px;
             text-align: left;
@@ -160,27 +221,50 @@
         .login-card .form-group label {
             display: block;
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
             margin-bottom: 6px;
             color: var(--text-secondary);
         }
+        .login-card .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            transition: var(--transition);
+        }
+        .login-card .input-wrapper:focus-within {
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 4px rgba(184, 134, 11, 0.08);
+            background: rgba(255, 255, 255, 0.06);
+        }
+        .login-card .input-wrapper i {
+            padding: 0 14px 0 16px;
+            color: var(--text-muted);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        .login-card .input-wrapper:focus-within i {
+            color: var(--primary-light);
+        }
         .login-card .form-control {
             width: 100%;
-            padding: 14px 18px;
-            background: var(--bg-input);
-            border: 1px solid var(--border-color);
-            border-radius: 14px;
+            padding: 14px 18px 14px 0;
+            background: transparent;
+            border: none;
             color: var(--text-primary);
             font-size: 1rem;
             font-family: 'Inter', sans-serif;
             outline: none;
-            transition: var(--transition);
         }
-        .login-card .form-control:focus {
-            border-color: var(--primary-light);
-            box-shadow: 0 0 0 4px rgba(184, 134, 11, 0.10);
+        .login-card .form-control::placeholder {
+            color: #6a625a;
         }
-        .login-card .btn-login {
+
+        .btn-login {
             width: 100%;
             padding: 16px;
             border: none;
@@ -191,22 +275,70 @@
             font-size: 1.1rem;
             cursor: pointer;
             transition: var(--transition);
-            box-shadow: 0 8px 24px rgba(184, 134, 11, 0.25);
+            box-shadow: 0 8px 24px rgba(184, 134, 11, 0.2);
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            letter-spacing: 0.3px;
         }
-        .login-card .btn-login:hover {
+        .btn-login:hover {
             transform: translateY(-3px);
             box-shadow: 0 14px 34px rgba(184, 134, 11, 0.4);
             background: linear-gradient(135deg, var(--primary-light), var(--primary));
         }
+        .btn-login:active {
+            transform: scale(0.97);
+        }
+
         .login-error {
             color: #e74c3c;
             font-size: 0.9rem;
-            margin-top: 12px;
-            min-height: 24px;
+            margin-top: 16px;
+            min-height: 28px;
+            font-weight: 500;
+            background: rgba(231, 76, 60, 0.06);
+            border-radius: 30px;
+            padding: 6px 12px;
+            display: inline-block;
+        }
+        /* Animation shake pour erreur */
+        @keyframes shake {
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+            20% {
+                transform: translateX(-8px);
+            }
+            40% {
+                transform: translateX(8px);
+            }
+            60% {
+                transform: translateX(-4px);
+            }
+            80% {
+                transform: translateX(4px);
+            }
+        }
+        .shake {
+            animation: shake 0.4s ease;
+        }
+
+        @media (max-width: 480px) {
+            .login-card {
+                padding: 36px 24px;
+            }
+            .login-card .lock-icon {
+                width: 64px;
+                height: 64px;
+                font-size: 2rem;
+            }
         }
 
         /* ======================================================
-                   HEADER ADMIN
+                   HEADER ADMIN (inchangé)
                 ====================================================== */
         .admin-header {
             position: fixed;
@@ -320,7 +452,7 @@
         }
 
         /* ======================================================
-                   MAIN LAYOUT
+                   MAIN LAYOUT (inchangé)
                 ====================================================== */
         .admin-main {
             padding-top: 85px;
@@ -973,18 +1105,39 @@
     <div class="page-transition-overlay" id="pageTransition"></div>
 
     <!-- ============================================================
-    ÉCRAN DE CONNEXION
+    ÉCRAN DE CONNEXION MODERNISÉ
     ============================================================ -->
     <div class="login-overlay" id="loginOverlay">
         <div class="login-card">
-            <div class="lock-icon"><i class="fas fa-lock"></i></div>
-            <h1>ENFLAMMER <span class="gold">Admin</span></h1>
-            <p class="sub">Accès réservé aux organisateurs</p>
-            <div class="form-group">
-                <label for="adminPassword">Identifiant de connexion</label>
-                <input type="password" id="adminPassword" class="form-control" placeholder="Entrez l'identifiant" />
+            <div class="lock-icon">
+                <i class="fas fa-shield-alt"></i>
             </div>
-            <button class="btn-login" id="loginBtn"><i class="fas fa-arrow-right"></i> Se connecter</button>
+            <h1><span class="gold">ENFLAMMER</span> Admin</h1>
+            <p class="sub">Accès sécurisé aux organisateurs</p>
+
+            <!-- Champ Identifiant (design) -->
+            <div class="form-group">
+                <label for="adminUsername">Identifiant</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="adminUsername" class="form-control" placeholder="Votre identifiant" value="admin" />
+                </div>
+            </div>
+
+            <!-- Champ Mot de passe (le seul vérifié) -->
+            <div class="form-group">
+                <label for="adminPassword">Mot de passe <span style="color:var(--primary-light);">*</span></label>
+                <div class="input-wrapper">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="adminPassword" class="form-control" placeholder="Entrez le mot de passe" />
+                </div>
+            </div>
+
+            <button class="btn-login" id="loginBtn">
+                <span>Se connecter</span>
+                <i class="fas fa-arrow-right"></i>
+            </button>
+
             <div class="login-error" id="loginError"></div>
         </div>
     </div>
@@ -998,9 +1151,9 @@
         <header class="admin-header">
             <div class="container">
                 <div class="brand">
-                    <!-- LOGO : remplacez 'logo-placeholder.png' -->
+                    <!-- LOGO : remplacez 'logo-awc.png' par le chemin de votre logo -->
                     <img src="logo-awc.png" alt="Logo" />
-                    <span class="title"><span class="gold">AGYINASARE</span> · Admin</span>
+                    <span class="title"><span class="gold">AGYINASARE</span> • Admin</span>
                 </div>
                 <div class="badge-live">
                     <span class="pulse-dot"></span> En direct
@@ -1259,11 +1412,11 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
 
-             ==========================================================
+            /* ==========================================================
                DONNÉES FICTIVES (MOCK DATA)
                REMPLACEZ CES DONNÉES PAR VOS APPELS VERS Google Apps Script
                URL à utiliser : const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzNkJl1JFQiMJxeIEdQ40iIXDRSiYL2F25e5nY7RLQQagp8UgdACm2WjYt4wLCeWkxrZw/exec';
-            ========================================================== 
+            ========================================================== */
             const MOCK_DATA = [
                 { id: 'ENF-001', nom: 'Soukpo', prenoms: 'Blaise', genre: 'Masculin', whatsapp: '+229 90 00 00 01',
                     email: 'blaise@test.com', fonction: 'Pasteur', eglise: 'Perez Chapel', pays: 'Bénin',
@@ -1359,6 +1512,63 @@
             const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzVotreID/exec';
 
             /* ==========================================================
+               AUTHENTIFICATION ADMIN (MODERNISÉE)
+            ========================================================== */
+            const ADMIN_PASSWORD = '1234'; // ⬅️ MODIFIEZ ICI POUR CHANGER LE MOT DE PASSE
+
+            const loginOverlay = document.getElementById('loginOverlay');
+            const adminApp = document.getElementById('adminApp');
+            const loginBtn = document.getElementById('loginBtn');
+            const adminPassword = document.getElementById('adminPassword');
+            const adminUsername = document.getElementById('adminUsername');
+            const loginError = document.getElementById('loginError');
+            const logoutBtn = document.getElementById('logoutBtn');
+
+            function checkAuth() {
+                if (sessionStorage.getItem('adminAuth') === 'true') {
+                    loginOverlay.classList.add('hidden');
+                    adminApp.style.display = 'block';
+                    initApp();
+                } else {
+                    loginOverlay.classList.remove('hidden');
+                    adminApp.style.display = 'none';
+                }
+            }
+
+            function attemptLogin() {
+                const pass = adminPassword.value.trim();
+                if (pass === ADMIN_PASSWORD) {
+                    sessionStorage.setItem('adminAuth', 'true');
+                    loginError.textContent = '';
+                    loginError.className = 'login-error';
+                    adminPassword.value = '';
+                    checkAuth();
+                } else {
+                    loginError.textContent = '❌ Mot de passe incorrect. Réessayez.';
+                    loginError.className = 'login-error shake';
+                    adminPassword.value = '';
+                    adminPassword.focus();
+                    setTimeout(() => { loginError.className = 'login-error'; }, 500);
+                }
+            }
+
+            loginBtn.addEventListener('click', attemptLogin);
+
+            adminPassword.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') loginBtn.click();
+            });
+
+            // Forcer le focus sur le champ mot de passe au chargement
+            adminPassword.focus();
+
+            logoutBtn.addEventListener('click', function() {
+                sessionStorage.removeItem('adminAuth');
+                Object.values(charts).forEach(c => c.destroy());
+                charts = {};
+                checkAuth();
+            });
+
+            /* ==========================================================
                THÈME JOUR / NUIT
             ========================================================== */
             const themeToggle = document.getElementById('themeToggle');
@@ -1389,78 +1599,23 @@
             });
 
             /* ==========================================================
-               AUTHENTIFICATION
-            ========================================================== */
-            const loginOverlay = document.getElementById('loginOverlay');
-            const adminApp = document.getElementById('adminApp');
-            const loginBtn = document.getElementById('loginBtn');
-            const adminPassword = document.getElementById('adminPassword');
-            const loginError = document.getElementById('loginError');
-            const logoutBtn = document.getElementById('logoutBtn');
-
-            function checkAuth() {
-                if (sessionStorage.getItem('adminAuth') === 'true') {
-                    loginOverlay.classList.add('hidden');
-                    adminApp.style.display = 'block';
-                    initApp();
-                } else {
-                    loginOverlay.classList.remove('hidden');
-                    adminApp.style.display = 'none';
-                }
-            }
-
-            loginBtn.addEventListener('click', function() {
-                const pass = adminPassword.value.trim();
-                if (pass === '1234') {
-                    sessionStorage.setItem('adminAuth', 'true');
-                    loginError.textContent = '';
-                    adminPassword.value = '';
-                    checkAuth();
-                } else {
-                    loginError.textContent = '❌ Identifiant incorrect. Réessayez.';
-                    adminPassword.value = '';
-                    adminPassword.focus();
-                }
-            });
-
-            adminPassword.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter') loginBtn.click();
-            });
-
-            logoutBtn.addEventListener('click', function() {
-                sessionStorage.removeItem('adminAuth');
-                // Détruire les graphiques
-                Object.values(charts).forEach(c => c.destroy());
-                charts = {};
-                checkAuth();
-            });
-
-            /* ==========================================================
                INITIALISATION DE L'APP (après connexion)
             ========================================================== */
             function initApp() {
-                // Charger les données (mock ou API)
                 loadData();
-                // Initialiser les graphiques
                 initCharts();
-                // Initialiser les filtres
                 populateFilters();
-                // Rendre le tableau
                 renderTable();
-                // Mettre à jour les stats
                 updateStats();
-                // Mettre à jour le pointage
                 updateCheckinStats();
-                // Remplir les selects des rapports
                 populateReportSelects();
-                // Événements des onglets
+
                 document.querySelectorAll('.tab-btn').forEach(btn => {
                     btn.addEventListener('click', function() {
                         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
                         this.classList.add('active');
                         document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
                         document.getElementById('tab-' + this.dataset.tab).classList.add('active');
-                        // Rafraîchir les graphiques si dashboard
                         if (this.dataset.tab === 'dashboard') {
                             setTimeout(() => {
                                 Object.values(charts).forEach(c => c.resize());
@@ -1469,7 +1624,6 @@
                     });
                 });
 
-                // Événements du tableau
                 document.getElementById('searchInput').addEventListener('input', renderTable);
                 document.getElementById('filterPays').addEventListener('change', renderTable);
                 document.getElementById('filterStatut').addEventListener('change', renderTable);
@@ -1478,7 +1632,6 @@
                 document.getElementById('nextPage').addEventListener('click', () => { currentPage++;
                     renderTable(); });
 
-                // Pointage
                 document.querySelectorAll('#daySelector button').forEach(btn => {
                     btn.addEventListener('click', function() {
                         document.querySelectorAll('#daySelector button').forEach(b => b.classList.remove(
@@ -1491,11 +1644,8 @@
 
                 document.getElementById('checkinBtn').addEventListener('click', handleCheckin);
                 document.getElementById('closeDayBtn').addEventListener('click', closeDay);
-
-                // Rappels
                 document.getElementById('addReminderBtn').addEventListener('click', addReminder);
 
-                // Exports
                 document.getElementById('exportExcelBtn').addEventListener('click', () => exportExcel(filteredParticipants));
                 document.getElementById('refreshBtn').addEventListener('click', () => { loadData();
                     renderTable();
@@ -1517,19 +1667,10 @@
                CHARGEMENT DES DONNÉES (Mock / API)
             ========================================================== */
             function loadData() {
-                // ICI : remplacez par un fetch réel vers SCRIPT_URL
-                // Exemple:
-                // fetch(SCRIPT_URL + '?action=getData')
-                //   .then(res => res.json())
-                //   .then(data => { allParticipants = data; filteredParticipants = [...data]; renderTable(); updateStats(); initCharts(); })
-                //   .catch(err => console.error(err));
-
                 // Utilisation des données fictives
                 allParticipants = [...MOCK_DATA];
                 filteredParticipants = [...allParticipants];
-                // Réinitialiser la pagination
                 currentPage = 1;
-                // Mettre à jour les filtres
                 populateFilters();
                 populateReportSelects();
             }
@@ -1587,7 +1728,6 @@
                 document.getElementById('prevPage').disabled = currentPage <= 1;
                 document.getElementById('nextPage').disabled = currentPage >= totalPages;
 
-                // Mettre à jour les stats
                 updateStats();
             }
 
@@ -1607,12 +1747,10 @@
                 document.getElementById('statPresentDay').textContent = `Jour ${currentDay}`;
                 document.getElementById('statAbsentDay').textContent = `Jour ${currentDay}`;
 
-                // Mise à jour des graphiques
                 updateCharts();
             }
 
             function initCharts() {
-                // Détruire les anciens graphiques s'ils existent
                 Object.values(charts).forEach(c => c.destroy());
                 charts = {};
 
@@ -1621,7 +1759,6 @@
                 const ctxSources = document.getElementById('chartSources').getContext('2d');
                 const ctxEglises = document.getElementById('chartEglises').getContext('2d');
 
-                // Répartition par pays
                 const paysMap = {};
                 allParticipants.forEach(p => { paysMap[p.pays] = (paysMap[p.pays] || 0) + 1; });
                 const paysLabels = Object.keys(paysMap);
@@ -1646,7 +1783,6 @@
                     }
                 });
 
-                // Évolution (simulée)
                 charts.evolution = new Chart(ctxEvolution, {
                     type: 'line',
                     data: {
@@ -1673,7 +1809,6 @@
                     }
                 });
 
-                // Sources
                 const srcMap = {};
                 allParticipants.forEach(p => { const s = p.source || 'Inconnu';
                     srcMap[s] = (srcMap[s] || 0) + 1; });
@@ -1695,7 +1830,6 @@
                     }
                 });
 
-                // Églises
                 const eglMap = {};
                 allParticipants.forEach(p => { eglMap[p.eglise] = (eglMap[p.eglise] || 0) + 1; });
                 const eglLabels = Object.keys(eglMap);
@@ -1725,8 +1859,6 @@
             }
 
             function updateCharts() {
-                // Mettre à jour les données des graphiques sans les recréer
-                // Pour simplifier, on les recrée
                 initCharts();
             }
 
@@ -1743,7 +1875,6 @@
                 });
                 paysSelect.value = currentVal;
 
-                // Même chose pour les reports
                 populateReportSelects();
             }
 
@@ -1770,7 +1901,6 @@
                 document.getElementById('checkinPresentCount').textContent = presents;
                 document.getElementById('checkinAbsentCount').textContent = total - presents;
 
-                // Vérifier si la journée est clôturée (simulé)
                 const closed = localStorage.getItem('dayClosed_' + currentDay) === 'true';
                 document.getElementById('dayClosedBadge').style.display = closed ? 'inline' : 'none';
             }
@@ -1796,7 +1926,6 @@
                 document.getElementById('checkinResult').innerHTML =
                     `<span style="color:#2ecc71;">✅ ${participant.prenoms} ${participant.nom} (${participant.id}) pointé avec succès.</span>`;
 
-                // Ajouter à l'historique
                 const historyList = document.getElementById('historyList');
                 const now = new Date().toLocaleTimeString();
                 const item = document.createElement('div');
@@ -1808,7 +1937,6 @@
                 }
                 historyList.prepend(item);
 
-                // Mise à jour
                 renderTable();
                 updateStats();
                 updateCheckinStats();
@@ -1880,7 +2008,6 @@
             ========================================================== */
             window.sendIndividualEmail = function(email, name) {
                 alert(`📧 Envoi d'un email individuel à ${name} (${email})\n(Simulation - API à connecter)`);
-                // ICI : appel à SCRIPT_URL avec action=sendIndividualEmail
             };
 
             function sendMassEmail() {
@@ -1891,7 +2018,6 @@
 
                 const emails = allParticipants.map(p => p.email).join(', ');
                 alert(`📨 Envoi d'un email en masse à ${allParticipants.length} participants.\nSujet: ${subject}\nMessage: ${message.substring(0, 100)}...\n(Simulation - API à connecter)`);
-                // ICI : appel à SCRIPT_URL avec action=sendMassEmail
             }
 
             /* ==========================================================
@@ -1950,10 +2076,9 @@
             }
 
             /* ==========================================================
-               TRANSITION ENTRE PAGES (pour rester cohérent)
+               TRANSITION ENTRE PAGES
             ========================================================== */
             const transitionOverlay = document.getElementById('pageTransition');
-            // Pas de navigation interne sur admin, mais on garde l'overlay pour les éventuels liens vers index
             const internalLinks = document.querySelectorAll('a[href="index.html"]');
             internalLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
@@ -1963,10 +2088,8 @@
                 });
             });
 
-            // Désactiver clic droit
             document.addEventListener('contextmenu', (e) => e.preventDefault());
 
-            // Vérifier l'authentification au chargement
             checkAuth();
 
         }); // Fin DOMContentLoaded
