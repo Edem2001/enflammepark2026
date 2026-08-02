@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ENFLAMMER · Tableau de bord Admin</title>
+    <title>ENFLAMMER • Tableau de bord Admin</title>
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -1142,7 +1142,7 @@
                 <div class="brand">
                     <!-- LOGO : remplacez 'logo-awc.png' par le chemin de votre logo -->
                     <img src="logo-awc.png" alt="Logo" />
-                    <span class="title"><span class="gold">AGYINASARE</span> · Admin</span>
+                    <span class="title"><span class="gold">AGYINASARE</span> • Admin</span>
                 </div>
                 <div class="badge-live">
                     <span class="pulse-dot"></span> En direct
@@ -1393,7 +1393,7 @@
     </div>
 
     <!-- ============================================================
-    JAVASCRIPT
+    JAVASCRIPT (CORRIGÉ)
     ============================================================ -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -1402,13 +1402,13 @@
                CONFIGURATION
             ========================================================== */
             // === URL DE VOTRE SCRIPT GOOGLE APPS SCRIPT (à remplacer) ===
-            const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxuPmjC9p5E8LLxwEYmeTwEUGHkzHryUVRy9mwxDCokAog5iUKVIqZatIu44MM9WiCDKw/exec';
+            const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby6L38V3MpxbX7J0Lbm5UWEYtlokLk8NGJ-6_PHexesWsZubLwoAgow9WSPTLd2PMg1_g/exec';
 
             // Mot de passe admin
             const ADMIN_PASSWORD = '1234';
 
             /* ==========================================================
-               AUTHENTIFICATION - CORRIGÉE
+               AUTHENTIFICATION
             ========================================================== */
             const loginOverlay = document.getElementById('loginOverlay');
             const adminApp = document.getElementById('adminApp');
@@ -1417,7 +1417,6 @@
             const loginError = document.getElementById('loginError');
             const logoutBtn = document.getElementById('logoutBtn');
 
-            // Fonction pour vérifier l'état de connexion
             function checkAuth() {
                 if (sessionStorage.getItem('adminAuth') === 'true') {
                     loginOverlay.classList.add('hidden');
@@ -1429,11 +1428,8 @@
                 }
             }
 
-            // Fonction de tentative de connexion
             function attemptLogin() {
                 const pass = adminPassword.value.trim();
-                console.log('🔑 Mot de passe saisi : "' + pass + '"'); // Débogage
-
                 if (pass === ADMIN_PASSWORD) {
                     sessionStorage.setItem('adminAuth', 'true');
                     loginError.textContent = '';
@@ -1449,23 +1445,17 @@
                 }
             }
 
-            // Attacher les événements
             loginBtn.addEventListener('click', attemptLogin);
-
             adminPassword.addEventListener('keydown', function(e) {
                 if (e.key === 'Enter') {
                     e.preventDefault();
                     loginBtn.click();
                 }
             });
-
-            // Mettre le focus sur le champ mot de passe
             adminPassword.focus();
 
-            // Déconnexion
             logoutBtn.addEventListener('click', function() {
                 sessionStorage.removeItem('adminAuth');
-                // Détruire les graphiques
                 Object.values(charts).forEach(c => c.destroy());
                 charts = {};
                 checkAuth();
@@ -1525,33 +1515,28 @@
                     document.getElementById('statAbsent').textContent = '...';
                     document.getElementById('statCountries').textContent = '...';
 
-                    const response = await fetch(SCRIPT_URL + '?action=getData');
+                    const url = SCRIPT_URL + '?action=getData&t=' + Date.now();
+                    console.log('Chargement depuis :', url);
+
+                    const response = await fetch(url);
                     if (!response.ok) throw new Error('Erreur réseau');
                     const result = await response.json();
+
+                    console.log('Réponse getData :', result);
 
                     if (result.status === 'success') {
                         allParticipants = result.data || [];
                         allParticipants.forEach(p => {
-                            if (typeof p.Présent === 'string') {
-                                try {
-                                    p.Présent = JSON.parse(p.Présent);
-                                } catch (e) {
-                                    p.Présent = { 1: false, 2: false, 3: false };
-                                }
-                            } else if (!p.Présent) {
-                                p.Présent = { 1: false, 2: false, 3: false };
-                            }
-                            // Alias pour faciliter l'affichage
+                            // Normalisation des colonnes
                             p.id = p.ID || '';
                             p.nom = p.Nom || '';
                             p.prenoms = p.Prénoms || '';
                             p.email = p.Email || '';
                             p.whatsapp = p.WhatsApp || '';
-                            p.eglise = p['Ministère/Église'] || p.eglise || '';
+                            p.eglise = p['Ministère/Église'] || '';
                             p.pays = p.Pays || '';
                             p.statut = p.Statut || '';
                             p.hotel = p.Hôtel || '';
-                            p.present = p.Présent || { 1: false, 2: false, 3: false };
                             p.fonction = p.Fonction || '';
                             p.genre = p.Genre || '';
                             p.ville = p.Ville || '';
@@ -1562,6 +1547,22 @@
                             p.arrivee = p.Arrivée || '';
                             p.depart = p.Départ || '';
                             p.compagnie = p.Compagnie || '';
+                            // Présent : objet JSON avec jours
+                            if (typeof p.Présent === 'string') {
+                                try {
+                                    p.present = JSON.parse(p.Présent);
+                                } catch (e) {
+                                    p.present = { 1: false, 2: false, 3: false };
+                                }
+                            } else if (p.Présent && typeof p.Présent === 'object') {
+                                p.present = p.Présent;
+                            } else {
+                                p.present = { 1: false, 2: false, 3: false };
+                            }
+                            // S'assurer que les jours existent
+                            if (!p.present[1]) p.present[1] = false;
+                            if (!p.present[2]) p.present[2] = false;
+                            if (!p.present[3]) p.present[3] = false;
                         });
 
                         filteredParticipants = [...allParticipants];
