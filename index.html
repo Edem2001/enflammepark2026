@@ -1,18 +1,9 @@
-Voici votre fichier `index.html` pour Parakou **corrigé** avec les appels API fonctionnels (anti-doublon + envoi).
-
-J'ai uniquement modifié la partie JavaScript (et l'URL du script) pour :
-- Envoyer les données directement (`URLSearchParams`) au lieu d'un `payload` JSON
-- Vérifier les doublons avant l'inscription
-- Lire la réponse JSON et gérer les erreurs
-- Supprimer le `mode: no-cors` pour pouvoir lire les réponses
-
-```html
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ENFLAMMER • Conférence Parakou 2026</title>
+    <title>ENFLAMMER · Conférence Parakou 2026</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -20,7 +11,7 @@ J'ai uniquement modifié la partie JavaScript (et l'URL du script) pour :
     <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <style>
-        /* -------------------- RESET & BASE -------------------- */
+        /* ===== RESET & BASE ===== */
         * {
             margin: 0;
             padding: 0;
@@ -106,9 +97,7 @@ J'ai uniquement modifié la partie JavaScript (et l'URL du script) pour :
             transform: translateY(0);
         }
 
-        /* ======================================================
-                   HEADER / NAVIGATION
-                ====================================================== */
+        /* ===== HEADER ===== */
         .main-header {
             position: fixed;
             top: 0;
@@ -118,7 +107,6 @@ J'ai uniquement modifié la partie JavaScript (et l'URL du script) pour :
             padding: 14px 0;
             background: rgba(10, 9, 9, 0.7);
             backdrop-filter: blur(12px) saturate(180%);
-            -webkit-backdrop-filter: blur(12px) saturate(180%);
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             transition: var(--transition);
         }
@@ -135,7 +123,6 @@ J'ai uniquement modifié la partie JavaScript (et l'URL du script) pour :
             gap: 12px;
         }
 
-        /* === LOGO : remplacez 'logo-placeholder.png' par le chemin de votre logo === */
         .header-logo img {
             height: 44px;
             width: auto;
@@ -229,9 +216,7 @@ J'ai uniquement modifié la partie JavaScript (et l'URL du script) pour :
             }
         }
 
-        /* ======================================================
-                   HERO / ACCUEIL
-                ====================================================== */
+        /* ===== HERO ===== */
         .hero {
             position: relative;
             min-height: 100vh;
@@ -241,8 +226,7 @@ J'ai uniquement modifié la partie JavaScript (et l'URL du script) pour :
             padding: 100px 0 60px;
             overflow: hidden;
             background: #0e0d0d;
-            /* === IMAGE DE FOND : remplacez l'URL ci-dessous === */
-            background-image: url('decree-bg.jpg');
+            background-image: url('decree-bg.jpg'); /* À remplacer */
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -419,7 +403,6 @@ J'ai uniquement modifié la partie JavaScript (et l'URL du script) pour :
             justify-content: center;
             align-items: center;
         }
-        /* === AFFICHE : remplacez 'src' par le chemin de votre affiche === */
         .hero-poster img {
             max-width: 100%;
             max-height: 520px;
@@ -448,9 +431,7 @@ J'ai uniquement modifié la partie JavaScript (et l'URL du script) pour :
             }
         }
 
-        /* ======================================================
-                   SECTIONS GÉNÉRIQUES
-                ====================================================== */
+        /* ===== SECTIONS ===== */
         section {
             padding: 80px 0;
         }
@@ -481,9 +462,7 @@ J'ai uniquement modifié la partie JavaScript (et l'URL du script) pour :
             margin-right: auto;
         }
 
-        /* ======================================================
-                   INFOS PRATIQUES (horizontal scroll)
-                ====================================================== */
+        /* ===== INFOS PRATIQUES (horizontal scroll) ===== */
         .info-scroll-wrapper {
             overflow-x: auto;
             overflow-y: visible;
@@ -551,9 +530,7 @@ J'ai uniquement modifié la partie JavaScript (et l'URL du script) pour :
             }
         }
 
-        /* ======================================================
-                   CALENDRIER
-                ====================================================== */
+        /* ===== CALENDRIER ===== */
         .calendar-buttons {
             display: flex;
             flex-wrap: wrap;
@@ -583,9 +560,7 @@ J'ai uniquement modifié la partie JavaScript (et l'URL du script) pour :
             color: var(--primary-light);
         }
 
-        /* ======================================================
-                   FORMULAIRE
-                ====================================================== */
+        /* ===== FORMULAIRE ===== */
         .form-wrapper {
             max-width: 820px;
             margin: 0 auto;
@@ -763,9 +738,7 @@ J'ai uniquement modifié la partie JavaScript (et l'URL du script) pour :
             transform: none;
         }
 
-        /* ======================================================
-                   MODAL & SPINNER
-                ====================================================== */
+        /* ===== MODAL & SPINNER ===== */
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -877,9 +850,7 @@ J'ai uniquement modifié la partie JavaScript (et l'URL du script) pour :
             font-size: 1.1rem;
         }
 
-        /* ======================================================
-                   BOUTONS FLOTTANTS
-                ====================================================== */
+        /* ===== BOUTONS FLOTTANTS ===== */
         .float-btn {
             position: fixed;
             z-index: 999;
@@ -945,9 +916,7 @@ J'ai uniquement modifié la partie JavaScript (et l'URL du script) pour :
             }
         }
 
-        /* ======================================================
-                   FOOTER
-                ====================================================== */
+        /* ===== FOOTER ===== */
         footer {
             border-top: 1px solid rgba(255, 255, 255, 0.04);
             padding: 40px 0 28px;
@@ -983,13 +952,11 @@ J'ai uniquement modifié la partie JavaScript (et l'URL du script) pour :
 </head>
 <body>
 
-    <!-- ============================================================
-    HEADER / EN-TÊTE
-    ============================================================ -->
+    <!-- ===== HEADER ===== -->
     <header class="main-header" id="mainHeader">
         <div class="container">
             <div class="header-logo">
-                <!-- === LOGO : remplacez 'logo-placeholder.png' par le chemin de votre logo === -->
+                <!-- LOGO : remplacez 'logo-awc.png' par le chemin de votre logo -->
                 <img src="logo-awc.png" alt="Logo Agyinasare World Evangelism" />
                 <span class="brand-text"><span class="gold">AGYINASARE</span> WORLD</span>
             </div>
@@ -1005,9 +972,7 @@ J'ai uniquement modifié la partie JavaScript (et l'URL du script) pour :
         </div>
     </header>
 
-    <!-- ============================================================
-    HERO / ACCUEIL
-    ============================================================ -->
+    <!-- ===== HERO ===== -->
     <section class="hero" id="accueil">
         <div class="container hero-content">
             <div class="hero-text">
@@ -1028,15 +993,13 @@ J'ai uniquement modifié la partie JavaScript (et l'URL du script) pour :
                 </div>
             </div>
             <div class="hero-poster">
-                <!-- === AFFICHE : remplacez 'src' par le chemin de votre affiche === -->
+                <!-- AFFICHE : remplacez 'affiche.jpg' par le chemin de votre affiche -->
                 <img src="affiche.jpg" alt="Affiche ENFLAMMER Parakou 2026" />
             </div>
         </div>
     </section>
 
-    <!-- ============================================================
-    INFOS PRATIQUES
-    ============================================================ -->
+    <!-- ===== INFOS PRATIQUES ===== -->
     <section id="infos" class="reveal">
         <div class="container">
             <h2 class="section-title text-center">Informations <span class="gold">pratiques</span></h2>
@@ -1068,9 +1031,7 @@ J'ai uniquement modifié la partie JavaScript (et l'URL du script) pour :
         </div>
     </section>
 
-    <!-- ============================================================
-    AJOUTER À L'AGENDA
-    ============================================================ -->
+    <!-- ===== AJOUTER À L'AGENDA ===== -->
     <section id="agenda" class="reveal" style="padding-top:20px;">
         <div class="container text-center">
             <h2 class="section-title"><span class="gold">Ajouter</span> à votre agenda</h2>
@@ -1083,9 +1044,7 @@ J'ai uniquement modifié la partie JavaScript (et l'URL du script) pour :
         </div>
     </section>
 
-    <!-- ============================================================
-    FORMULAIRE D'INSCRIPTION
-    ============================================================ -->
+    <!-- ===== FORMULAIRE D'INSCRIPTION ===== -->
     <section id="formulaire" class="reveal" style="padding-top:20px;">
         <div class="container">
             <h2 class="section-title text-center">Inscription <span class="gold">ENFLAMMER</span></h2>
@@ -1094,7 +1053,7 @@ J'ai uniquement modifié la partie JavaScript (et l'URL du script) pour :
             <div class="form-wrapper">
                 <form id="registrationForm" novalidate>
 
-                    <!-- 1. STATUT : TOGGLE SOUS FORMES DE CARTES -->
+                    <!-- 1. STATUT -->
                     <div class="form-group">
                         <label>Votre statut <span class="required">*</span></label>
                         <div class="status-toggle" id="statusToggle">
@@ -1233,9 +1192,7 @@ J'ai uniquement modifié la partie JavaScript (et l'URL du script) pour :
         </div>
     </section>
 
-    <!-- ============================================================
-    FOOTER
-    ============================================================ -->
+    <!-- ===== FOOTER ===== -->
     <footer>
         <div class="container">
             <div class="footer-brand">AGYINASARE <span class="gold">WORLD EVANGELISM</span></div>
@@ -1250,9 +1207,7 @@ J'ai uniquement modifié la partie JavaScript (et l'URL du script) pour :
         </div>
     </footer>
 
-    <!-- ============================================================
-    BOUTONS FLOTTANTS
-    ============================================================ -->
+    <!-- ===== BOUTONS FLOTTANTS ===== -->
     <a href="https://wa.me/2290151402849?text=Bonjour%20!%20Je%20souhaite%20avoir%20des%20informations%20sur%20la%20conf%C3%A9rence%20ENFLAMMER%20Parakou%202026." target="_blank" class="float-btn float-whatsapp" aria-label="WhatsApp">
         <i class="fab fa-whatsapp"></i>
         <span class="tooltip">Nous contacter</span>
@@ -1262,9 +1217,7 @@ J'ai uniquement modifié la partie JavaScript (et l'URL du script) pour :
         <span class="tooltip">Nous contacter par email</span>
     </a>
 
-    <!-- ============================================================
-    SPINNER & MODAL
-    ============================================================ -->
+    <!-- ===== SPINNER & MODAL ===== -->
     <div class="spinner-overlay" id="spinnerOverlay">
         <div class="spinner"></div>
         <p>Envoi en cours...</p>
@@ -1283,13 +1236,11 @@ J'ai uniquement modifié la partie JavaScript (et l'URL du script) pour :
         </div>
     </div>
 
-    <!-- ============================================================
-    JAVASCRIPT (CORRIGÉ)
-    ============================================================ -->
+    <!-- ===== JAVASCRIPT (version finale corrigée) ===== -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
 
-            /* ---------- MENU HAMBURGER ---------- */
+            /* ---------- MENU ---------- */
             const hamburger = document.getElementById('hamburger');
             const navLinks = document.getElementById('navLinks');
             hamburger.addEventListener('click', function() {
@@ -1335,7 +1286,7 @@ J'ai uniquement modifié la partie JavaScript (et l'URL du script) pour :
             }
             typewriterEffect();
 
-            /* ---------- REVEAL ON SCROLL ---------- */
+            /* ---------- REVEAL ---------- */
             const reveals = document.querySelectorAll('.reveal');
             const revealObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
@@ -1344,7 +1295,7 @@ J'ai uniquement modifié la partie JavaScript (et l'URL du script) pour :
             }, { threshold: 0.15 });
             reveals.forEach(el => revealObserver.observe(el));
 
-            /* ---------- TOGGLE STATUT ---------- */
+            /* ---------- STATUT TOGGLE ---------- */
             const statusOptions = document.querySelectorAll('.status-option');
             const statutHidden = document.getElementById('statut');
             const baseFields = document.getElementById('baseFields');
@@ -1404,7 +1355,7 @@ J'ai uniquement modifié la partie JavaScript (et l'URL du script) pour :
             hotelSelect.addEventListener('change', toggleBudget);
             setActiveStatus('');
 
-            /* ---------- .ics (Apple Calendar) ---------- */
+            /* ---------- .ics ---------- */
             document.getElementById('appleCalendarBtn').addEventListener('click', function(e) {
                 e.preventDefault();
                 const ics =
@@ -1430,7 +1381,7 @@ J'ai uniquement modifié la partie JavaScript (et l'URL du script) pour :
                 URL.revokeObjectURL(link.href);
             });
 
-            /* ---------- SOUMISSION FORMULAIRE (CORRIGÉE) ---------- */
+            /* ---------- SOUMISSION (version finale) ---------- */
             const form = document.getElementById('registrationForm');
             const submitBtn = document.getElementById('submitBtn');
             const spinner = document.getElementById('spinnerOverlay');
@@ -1438,13 +1389,13 @@ J'ai uniquement modifié la partie JavaScript (et l'URL du script) pour :
             const modalName = document.getElementById('modalName');
             const closeModalBtn = document.getElementById('closeModalBtn');
 
-            // === URL DU SCRIPT GOOGLE APPS SCRIPT (À REMPLACER PAR LA VOTRE) ===
-            const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby6L38V3MpxbX7J0Lbm5UWEYtlokLk8NGJ-6_PHexesWsZubLwoAgow9WSPTLd2PMg1_g/exec';
+            // ⬇️ REMPLACEZ CETTE URL PAR LA VÔTRE ⬇️
+            const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzWEZCB1SOHI1vIm57GDwTJKUPl3KJoaXSEQhCl0i07uZp-kTY2bz6pDIl6obdLMc4TYA/exec';
 
             form.addEventListener('submit', async function(e) {
                 e.preventDefault();
 
-                // Vérifier que le statut est sélectionné
+                // Vérifier statut
                 if (!statutHidden.value) {
                     alert('Veuillez sélectionner votre statut (Local ou International).');
                     return;
@@ -1482,7 +1433,7 @@ J'ai uniquement modifié la partie JavaScript (et l'URL du script) pour :
                     return;
                 }
 
-                // --- Collecte des données ---
+                // Collecte des données
                 const data = {
                     nom: document.getElementById('nom').value.trim(),
                     prenoms: document.getElementById('prenoms').value.trim(),
@@ -1508,31 +1459,6 @@ J'ai uniquement modifié la partie JavaScript (et l'URL du script) pour :
                 submitBtn.disabled = true;
 
                 try {
-
-                    // --- 1) VÉRIFICATION DES DOUBLONS ---
-                    const duplicateCheck = await fetch(SCRIPT_URL, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded',
-                        },
-                        body: new URLSearchParams({
-                            action: 'checkDuplicate',
-                            nom: data.nom,
-                            prenoms: data.prenoms,
-                            email: data.email,
-                        }),
-                    });
-
-                    const duplicateResult = await duplicateCheck.json();
-
-                    if (duplicateResult.success && duplicateResult.data && duplicateResult.data.duplicate === true) {
-                        alert('Cette personne est déjà inscrite. Veuillez contacter l\'administrateur si vous pensez qu\'il s\'agit d\'une erreur.');
-                        spinner.classList.remove('active');
-                        submitBtn.disabled = false;
-                        return;
-                    }
-
-                    // --- 2) ENVOI DE L'INSCRIPTION ---
                     const response = await fetch(SCRIPT_URL, {
                         method: 'POST',
                         headers: {
@@ -1540,30 +1466,28 @@ J'ai uniquement modifié la partie JavaScript (et l'URL du script) pour :
                         },
                         body: new URLSearchParams({
                             action: 'register',
-                            ...data,
-                        }),
+                            payload: JSON.stringify(data)
+                        })
                     });
 
                     const result = await response.json();
 
-                    if (result.success) {
-                        // Succès : afficher la modale
+                    if (result.status === 'success') {
+                        // Succès
                         const fullName = data.prenoms + ' ' + data.nom;
                         modalName.innerHTML = 'Merci <span class="highlight">' + fullName + '</span>';
                         modal.classList.add('active');
 
-                        // Réinitialiser le formulaire
+                        // Réinitialiser
                         form.reset();
                         setActiveStatus('');
                         requiredFields.forEach(f => f.style.borderColor = '');
                         accept.style.outline = '';
                         budgetGroup.style.display = 'none';
-
                     } else {
-                        // Erreur retournée par le script
-                        alert('Erreur lors de l\'inscription : ' + (result.message || 'Veuillez réessayer.'));
+                        // Erreur (doublon, champ manquant, etc.)
+                        alert('Erreur : ' + (result.message || 'Inscription non aboutie.'));
                     }
-
                 } catch (error) {
                     console.error('Erreur de connexion:', error);
                     alert('Une erreur est survenue. Veuillez vérifier votre connexion et réessayer.');
@@ -1576,17 +1500,15 @@ J'ai uniquement modifié la partie JavaScript (et l'URL du script) pour :
             closeModalBtn.addEventListener('click', () => modal.classList.remove('active'));
             modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('active'); });
 
-            // Désactiver le clic droit
+            // Désactiver clic droit
             document.addEventListener('contextmenu', (e) => e.preventDefault());
 
-            // Réinitialiser le style des champs au focus
+            // Reset border on focus
             document.querySelectorAll('.form-control').forEach(input => {
                 input.addEventListener('focus', function() { this.style.borderColor = ''; });
             });
 
         });
     </script>
-
 </body>
 </html>
-```
